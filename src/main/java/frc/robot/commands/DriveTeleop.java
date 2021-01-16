@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -20,9 +20,9 @@ public class DriveTeleop extends CommandBase {
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param drive The subsystem used by this command.
    */
-  public ExampleCommand(DriveSubsystem drive) {
+  public DriveTeleop(DriveSubsystem drive) {
     this.drive = drive;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
