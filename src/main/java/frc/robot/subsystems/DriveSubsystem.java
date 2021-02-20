@@ -7,15 +7,19 @@ import frc.robot.utility.SwerveModule;
 
 public class DriveSubsystem extends SubsystemBase {
 
+
     private SwerveModule frontLeftModule;
     private SwerveModule frontRightModule;
     private SwerveModule backLeftModule;
     private SwerveModule backRightModule;
 
     /**
-     * Creates a new ExampleSubsystem.
+     * Creates a new DriveSubsystem object.
+     *
+     *
      */
     public DriveSubsystem() {
+        //initialize swerve modules
         frontLeftModule = new SwerveModule(Constants.frontLeftModuleDriveMotorID, Constants.frontLeftModulRotationMotorID);
         frontRightModule = new SwerveModule(Constants.frontRightModuleDriveMotorID, Constants.frontRightModuleRotationMotorID);
         backLeftModule = new SwerveModule(Constants.backLeftModuleDriveMotorID, Constants.backLeftModuleRotationMotorID);
@@ -33,4 +37,5 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
     }
+
 }
