@@ -1,4 +1,4 @@
-package frc.robot.utility;
+package friarLib2.utility;
 
 public class PIDParameters {
     public double kP = 0;

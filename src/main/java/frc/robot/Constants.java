@@ -9,7 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.util.Units;
-import frc.robot.utility.PIDParameters;
+import friarLib2.utility.PIDParameters;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
