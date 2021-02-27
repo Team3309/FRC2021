@@ -42,6 +42,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands () {
      drive.setDefaultCommand(new DriveTeleop(drive));
+     shooter.setDefaultCommand(new temporaryShootCommand(shooter, OI.OperatorController));
   }
 
   /**
