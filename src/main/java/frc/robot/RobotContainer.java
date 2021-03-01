@@ -9,7 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.Teleop.*;
+import frc.robot.commands.DriveTeleop;
+import frc.robot.commands.temporaryShootCommand;
 import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;

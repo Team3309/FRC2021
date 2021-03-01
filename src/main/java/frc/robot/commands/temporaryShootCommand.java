@@ -1,9 +1,12 @@
-package frc.robot.commands.Teleop;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
+/**
+ * This class is for prototyping only
+ */
 public class temporaryShootCommand extends CommandBase {
     
     private final ShooterSubsystem shooter;
