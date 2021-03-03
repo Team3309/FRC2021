@@ -27,8 +27,8 @@ public final class Constants {
     public static final double maxAngularSpeed = 20; // rpm
 
     /********** Drive Tuning Constants **********/
-    public static final PIDParameters drivePID = new PIDParameters(0, 0, 0);
-    public static final PIDParameters driveRotationPID = new PIDParameters(0, 0, 0);
+    public static final PIDParameters drivePID = new PIDParameters(0, 0, 0, 0);
+    public static final PIDParameters driveRotationPID = new PIDParameters(0, 0, 0, 0);
 
     /********** Physical Drive Constants **********/
     public static final int frontLeftModuleDriveMotorID = 1;
@@ -57,6 +57,8 @@ public final class Constants {
     public static double bottomShooterMotor_kI;
     public static double bottomShooterMotor_kD;
     public static double bottomShooterMotor_kF;
+
+    public static double shooterMotorModulation = 0.5;
 
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot

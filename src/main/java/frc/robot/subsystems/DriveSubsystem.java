@@ -26,6 +26,11 @@ public class DriveSubsystem extends SubsystemBase {
         backRightModule = new SwerveModule(Constants.backRightModuleDriveMotorID, Constants.backRightModuleRotationMotorID);
     }
 
+    /***
+     * Sets the states of each swerve module, i.e: translates swerve module states into robot motion.
+     * 
+     * @param states The array of states to which the modules should be set.
+     */
     public void setModuleStates (SwerveModuleState[] states) {
         frontLeftModule.setState(states[0]);
         frontRightModule.setState(states[1]);
