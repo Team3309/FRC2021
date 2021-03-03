@@ -15,6 +15,7 @@ import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterPrototypeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -27,7 +28,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
 
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final ShooterPrototypeSubsystem shooter = new ShooterPrototypeSubsystem();
 
   public final OperatorInterface OI = new OperatorInterface(); // Public so that we do not need to pass it into command constructors
 
