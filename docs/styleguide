@@ -1,0 +1,21 @@
+/-------------------------------------------------------------------------------------------------------------*
+* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ *
+* Team 3309 Friarbots Style Guide (2021 Edition)                                                              *
+* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ *
+*-------------------------------------------------------------------------------------------------------------/
+
+I. Introduction
+    This style guide is intended to standardize programming conventions for programmers on Team 3309. This style
+guide should apply to refactoring and code modification, including, but not limited to:
+
+    * Renaming objects, variables, methods, etc.
+    * Text arrangement and spacing
+        + E.g: tabs, spaces, parentheses, etc.
+    * Git commits, branches, etc.
+        + E.g: how often to commit, how to push and pull code, etc.
+    * Inheritance structures
+        + E.g: interactions between files, objects, etc.
+    * Code placement
+        + E.g: where to put methods for various robot actions, what types of things
+        should be in the same file, etc.
+END

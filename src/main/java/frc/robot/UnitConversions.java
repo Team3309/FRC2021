@@ -1,4 +1,4 @@
-package frc.robot.utility;
+package frc.robot;
 
 public class UnitConversions {
     public static double driveMPSToEncoderTicksPer100ms (double mps) {

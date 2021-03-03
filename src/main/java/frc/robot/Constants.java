@@ -9,7 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.util.Units;
-import frc.robot.utility.PIDParameters;
+import friarLib2.utility.PIDParameters;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -42,6 +42,21 @@ public final class Constants {
 
     public static final int backRightModuleDriveMotorID = 7;
     public static final int backRightModuleRotationMotorID = 8;
+
+    /* Physical Shooter Constants */
+    public static final int topShooterMotorID = 9;
+    public static final int bottomShooterMotorID = 10;
+
+    /* Shooter Tuning Constants */
+    public static double topShooterMotor_kP;
+    public static double topShooterMotor_kI;
+    public static double topShooterMotor_kD;
+    public static double topShooterMotor_kF;
+
+    public static double bottomShooterMotor_kP;
+    public static double bottomShooterMotor_kI;
+    public static double bottomShooterMotor_kD;
+    public static double bottomShooterMotor_kF;
 
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot
