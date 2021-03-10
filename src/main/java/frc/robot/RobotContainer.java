@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.setShooterToIdle;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.commands.temporaryShootCommand;
 import frc.robot.commands.Autos.*;
@@ -43,7 +45,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands () {
      drive.setDefaultCommand(new DriveTeleop(drive));
-     shooter.setDefaultCommand(new temporaryShootCommand(shooter, OI.OperatorController));
+     shooter.setDefaultCommand(new setShooterToIdle(shooter));
   }
 
   /**
@@ -54,6 +56,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
       
+    new JoystickButton(OI.OperatorController, XboxController.Button.kA.value)
+    .whenHeld(new temporaryShootCommand(shooter, OI.OperatorController));
   }
 
   /**

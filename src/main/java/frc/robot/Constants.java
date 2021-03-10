@@ -22,6 +22,8 @@ import friarLib2.utility.PIDParameters;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final double mu_static = 1.23;
     /********** Drive Control Constants **********/
     public static final double maxDriveSpeed = 14; // ft/s
     public static final double maxAngularSpeed = 20; // rpm
