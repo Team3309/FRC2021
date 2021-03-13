@@ -10,4 +10,5 @@ public interface visionCamera {
     public visionTarget[] getTargets ();
     public visionTarget getBestTarget ();
     public void setPipeline (String pipelineName);
+    public void setLights (ledMode mode);
 }

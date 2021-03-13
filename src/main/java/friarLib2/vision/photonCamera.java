@@ -2,6 +2,7 @@ package friarLib2.vision;
 
 import java.util.List;
 
+import org.photonvision.LEDMode;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPipelineResult;
 import org.photonvision.PhotonTrackedTarget;
@@ -67,6 +68,16 @@ public class photonCamera implements visionCamera {
         } else {
             camera.setDriverMode(false);
             camera.setPipelineIndex(Integer.parseInt(pipeline));
+        }
+    }
+
+    @Override
+    public void setLights(ledMode mode) {
+        switch (mode) {
+            case on: camera.setLED(LEDMode.kOn); break;
+            case off: camera.setLED(LEDMode.kOff); break;
+            case blink: camera.setLED(LEDMode.kBlink); break;
+            case currentPipeline: camera.setLED(LEDMode.kDefault); break;
         }
     }
 }
