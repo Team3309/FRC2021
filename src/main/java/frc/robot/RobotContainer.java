@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveTeleop;
-import frc.robot.commands.temporaryShootCommand;
 import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -25,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
-
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   public final OperatorInterface OI = new OperatorInterface(); // Public so that we do not need to pass it into command constructors
@@ -42,7 +40,6 @@ public class RobotContainer {
 
   private void configureDefaultCommands () {
      drive.setDefaultCommand(new DriveTeleop(drive));
-     shooter.setDefaultCommand(new temporaryShootCommand(shooter, OI.OperatorController));
   }
 
   /**

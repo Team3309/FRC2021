@@ -43,21 +43,6 @@ public final class Constants {
     public static final int backRightModuleDriveMotorID = 7;
     public static final int backRightModuleRotationMotorID = 8;
 
-    /* Physical Shooter Constants */
-    public static final int topShooterMotorID = 9;
-    public static final int bottomShooterMotorID = 10;
-
-    /* Shooter Tuning Constants */
-    public static double topShooterMotor_kP;
-    public static double topShooterMotor_kI;
-    public static double topShooterMotor_kD;
-    public static double topShooterMotor_kF;
-
-    public static double bottomShooterMotor_kP;
-    public static double bottomShooterMotor_kI;
-    public static double bottomShooterMotor_kD;
-    public static double bottomShooterMotor_kF;
-
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot
     //Positive y values represent moving toward the left of the robot
@@ -65,4 +50,14 @@ public final class Constants {
     public static final Translation2d frontRightModuleTranslation = new Translation2d(Units.feetToMeters(1), Units.feetToMeters(-1));
     public static final Translation2d backLeftModuleTranslation = new Translation2d(Units.feetToMeters(-1), Units.feetToMeters(1));
     public static final Translation2d backRightModuleTranslation = new Translation2d(Units.feetToMeters(-1), Units.feetToMeters(-1));
+
+
+
+    /********** Physical Shooter Constants **********/
+    public static final int topShooterMotorID = 9;
+    public static final int bottomShooterMotorID = 10;
+
+    /********** Shooter Tuning Constants **********/
+    public static PIDParameters topFlywheelPID = new PIDParameters(0, 0, 0);
+    public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
 }
