@@ -8,8 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.util.Units;
 import friarLib2.utility.PIDParameters;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -29,6 +32,8 @@ public final class Constants {
     /********** Drive Tuning Constants **********/
     public static final PIDParameters drivePID = new PIDParameters(0, 0, 0);
     public static final PIDParameters driveRotationPID = new PIDParameters(0, 0, 0);
+    public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
+    public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
 
     /********** Physical Drive Constants **********/
     public static final int frontLeftModuleDriveMotorID = 1;

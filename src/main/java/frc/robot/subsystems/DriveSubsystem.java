@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -12,6 +13,8 @@ public class DriveSubsystem extends SubsystemBase {
     private SwerveModule backLeftModule;
     private SwerveModule backRightModule;
 
+    private HolonomicDriveController controller;
+
     /**
      * Creates a new ExampleSubsystem.
      */
@@ -20,6 +23,11 @@ public class DriveSubsystem extends SubsystemBase {
         frontRightModule = new SwerveModule(Constants.frontRightModuleDriveMotorID, Constants.frontRightModuleRotationMotorID);
         backLeftModule = new SwerveModule(Constants.backLeftModuleDriveMotorID, Constants.backLeftModuleRotationMotorID);
         backRightModule = new SwerveModule(Constants.backRightModuleDriveMotorID, Constants.backRightModuleRotationMotorID);
+
+        controller = new HolonomicDriveController(
+            Constants.holonomicControllerPID, 
+            Constants.holonomicControllerPID, 
+            Constants.holonomicControllerPIDTheta);
     }
 
     public void setModuleStates (SwerveModuleState[] states) {
@@ -27,6 +35,10 @@ public class DriveSubsystem extends SubsystemBase {
         frontRightModule.setState(states[1]);
         backLeftModule.setState(states[2]);
         backRightModule.setState(states[3]);
+    }
+
+    public HolonomicDriveController getHolonomicController () {
+        return controller;
     }
 
     @Override
