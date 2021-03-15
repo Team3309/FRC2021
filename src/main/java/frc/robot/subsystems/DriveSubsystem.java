@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -35,6 +37,19 @@ public class DriveSubsystem extends SubsystemBase {
         frontRightModule.setState(states[1]);
         backLeftModule.setState(states[2]);
         backRightModule.setState(states[3]);
+    }
+
+    public void setChassisSpeeds (ChassisSpeeds speeds) {
+        SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+                Constants.frontLeftModuleTranslation,
+                Constants.frontRightModuleTranslation,
+                Constants.backLeftModuleTranslation,
+                Constants.backRightModuleTranslation
+        );
+
+        SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
+
+        setModuleStates(moduleStates);
     }
 
     public HolonomicDriveController getHolonomicController () {

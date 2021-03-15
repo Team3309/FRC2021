@@ -26,7 +26,7 @@ public class RobotContainer {
   private final DriveSubsystem drive = new DriveSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  public final OperatorInterface OI = new OperatorInterface(); // Public so that we do not need to pass it into command constructors
+  //public final OperatorInterface OI = new OperatorInterface(); // Public so that we do not need to pass it into command constructors
 
   private final AutoCommand autoCommand = new AutoCommand(drive);
 

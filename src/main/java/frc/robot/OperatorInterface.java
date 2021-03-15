@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class OperatorInterface
 {
     // -- Driver
-    public Joystick DriverLeft = new Joystick(0);
-    public Joystick DriverRight = new Joystick(1);
+    public static Joystick DriverLeft = new Joystick(0);
+    public static Joystick DriverRight = new Joystick(1);
 
 
-    public ClusterGroup leftStickLeftCluster = new ClusterGroup(DriverLeft, GenericHID.Hand.kLeft);
-    public ClusterGroup leftStickRightCluster = new ClusterGroup(DriverLeft, GenericHID.Hand.kLeft);
+    public static ClusterGroup leftStickLeftCluster = new ClusterGroup(DriverLeft, GenericHID.Hand.kLeft);
+    public static ClusterGroup leftStickRightCluster = new ClusterGroup(DriverLeft, GenericHID.Hand.kLeft);
     public ClusterGroup rightStickLeftCluster = new ClusterGroup(DriverRight, GenericHID.Hand.kRight);
     public ClusterGroup rightStickRightCluster = new ClusterGroup(DriverRight, GenericHID.Hand.kRight);
 
@@ -32,11 +32,11 @@ public class OperatorInterface
     public static final int RIGHT_CLUSTER_6_ID = 10;
 
     // -- Operator
-    public XboxController OperatorController = new XboxController(2);
+    public static XboxController OperatorController = new XboxController(2);
 
     //needs to be public or it hides all the trigger functionality such as whenActive,
     //which essentially disables the ClusterGroup.
-    public class ClusterGroup extends Trigger {
+    public static class ClusterGroup extends Trigger {
 
         Joystick stick;
         GenericHID.Hand side;
