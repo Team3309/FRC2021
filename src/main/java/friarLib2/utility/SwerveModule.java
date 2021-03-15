@@ -14,6 +14,8 @@ public class SwerveModule {
     public WPI_TalonFX driveMotor;
     public WPI_TalonFX rotationMotor;
 
+    private SwerveModuleState targetState = new SwerveModuleState();
+
     public SwerveModule (int driveMotorID, int rotationMotorID) {
         driveMotor = new WPI_TalonFX(driveMotorID);
         rotationMotor = new WPI_TalonFX(rotationMotorID);
@@ -33,7 +35,13 @@ public class SwerveModule {
     }
 
     public void setState (SwerveModuleState state) {
+        targetState = state;
+
         driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
         rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(state.angle.getDegrees()));
+    }
+
+    public SwerveModuleState getState () {
+        return targetState;
     }
 }
