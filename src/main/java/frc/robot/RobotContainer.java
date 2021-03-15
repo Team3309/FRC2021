@@ -26,9 +26,7 @@ public class RobotContainer {
   private final DriveSubsystem drive = new DriveSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  //public final OperatorInterface OI = new OperatorInterface(); // Public so that we do not need to pass it into command constructors
-
-  private final AutoCommand autoCommand = new AutoCommand(drive);
+  private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -58,7 +56,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return autoCommand;
+    // TODO: add a widget to smartDashboard/shuffleboard to choose which auto to run
+    return bounceAuto;
   }
 }

@@ -1,6 +1,5 @@
 package frc.robot.commands.Autos;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.subsystems.DriveSubsystem;
 
 import java.io.IOException;
