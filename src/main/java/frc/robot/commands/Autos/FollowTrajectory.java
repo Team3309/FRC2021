@@ -1,11 +1,14 @@
 package frc.robot.commands.Autos;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -14,9 +17,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * Makes the robot follow the path
  */
 public class FollowTrajectory extends CommandBase {
+
     private final DriveSubsystem drive;
 
-    Trajectory trajectory;
+    private HolonomicDriveController holonomicController;
+    private Timer timer = new Timer();
+    private Trajectory trajectory;
 
     /**
      * @param drive The drive subsystem
@@ -25,17 +31,32 @@ public class FollowTrajectory extends CommandBase {
         this.drive = drive;
         addRequirements(drive);
 
+        holonomicController = new HolonomicDriveController(
+            Constants.holonomicControllerPID, 
+            Constants.holonomicControllerPID, 
+            Constants.holonomicControllerPIDTheta
+        );
+
         openTrajectoryFromJSON(trajectory, "bounceLeg1");
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        timer.reset();
+        timer.start();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        Trajectory.State goal = trajectory.sample(timer.get());
+
+        drive.setChassisSpeeds(holonomicController.calculate(
+            drive.getRobotPose(), 
+            goal, 
+            drive.getRobotRotation()
+        ));
     }
 
     // Called once the command ends or is interrupted.
@@ -46,7 +67,7 @@ public class FollowTrajectory extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return holonomicController.atReference() && timer.get() <= trajectory.getTotalTimeSeconds();
     }
 
     /**

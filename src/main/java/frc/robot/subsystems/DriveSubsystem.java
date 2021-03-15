@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -18,12 +17,9 @@ public class DriveSubsystem extends SubsystemBase {
     private SwerveModule backLeftModule;
     private SwerveModule backRightModule;
 
-    private HolonomicDriveController holonomicController;
     private SwerveDriveOdometry swerveOdometry;
     private SwerveDriveKinematics swerveKinematics;
     private Pose2d currentRobotPose = new Pose2d();
-
-    private Pose2d autoStartingPose = new Pose2d(0, 0, new Rotation2d()); //TODO: have this change based on the selected auto
 
     /**
      * Initialize the swerve modules and Kinematics/Odometry objects
@@ -34,12 +30,6 @@ public class DriveSubsystem extends SubsystemBase {
         backLeftModule = new SwerveModule(Constants.backLeftModuleDriveMotorID, Constants.backLeftModuleRotationMotorID);
         backRightModule = new SwerveModule(Constants.backRightModuleDriveMotorID, Constants.backRightModuleRotationMotorID);
 
-        holonomicController = new HolonomicDriveController(
-            Constants.holonomicControllerPID, 
-            Constants.holonomicControllerPID, 
-            Constants.holonomicControllerPIDTheta
-        );
-
         swerveKinematics = new SwerveDriveKinematics(
             Constants.frontLeftModuleTranslation,
             Constants.frontRightModuleTranslation,
@@ -49,8 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         swerveOdometry = new SwerveDriveOdometry(
             swerveKinematics, 
-            Rotation2d.fromDegrees(-1/*TODO: get gyro angle*/), 
-            autoStartingPose
+            getRobotRotation()
         );
     }
 
@@ -70,14 +59,18 @@ public class DriveSubsystem extends SubsystemBase {
         return currentRobotPose;
     }
 
-    public void setAutoStartingPose (Pose2d pose) {
-        autoStartingPose = pose;
+    public Rotation2d getRobotRotation () {
+        return Rotation2d.fromDegrees(-1/*TODO: get gyro angle*/);
+    }
+
+    public void resetOdometry (Pose2d pose) {
+        swerveOdometry.resetPosition(pose, getRobotRotation());
     }
 
     @Override
     public void periodic() {
         //Update the odometry
-        Rotation2d gyroAngle = Rotation2d.fromDegrees(-1/*TODO: get gyro angle*/);
+        Rotation2d gyroAngle = getRobotRotation();
 
         currentRobotPose = swerveOdometry.update(
             gyroAngle,
