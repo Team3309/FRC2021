@@ -14,13 +14,8 @@ public class SwerveModule {
     public WPI_TalonFX driveMotor;
     public WPI_TalonFX rotationMotor;
 
-    /***
-     * Creates new SwerveModule object. Each module must have a motor for linear motion
-     * and a motor for angular direction.
-     * 
-     * @param driveMotorID The motor providing the linear power for robot motion.
-     * @param rotationMotorID The motor which sets the heading of the module.
-     */
+    private SwerveModuleState targetState = new SwerveModuleState();
+
     public SwerveModule (int driveMotorID, int rotationMotorID) {
         driveMotor = new WPI_TalonFX(driveMotorID);
         rotationMotor = new WPI_TalonFX(rotationMotorID);
@@ -50,7 +45,13 @@ public class SwerveModule {
      * @param state The state to which the swerve module should be set.
      */
     public void setState (SwerveModuleState state) {
+        targetState = state;
+
         driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
         rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(state.angle.getDegrees()));
+    }
+
+    public SwerveModuleState getState () {
+        return targetState;
     }
 }

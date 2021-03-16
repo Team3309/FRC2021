@@ -1,49 +1,29 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.util.Units;
+import frc.robot.Constants;
+import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * An example command that uses an example subsystem.
- */
 public class DriveTeleop extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final DriveSubsystem drive;
+  DriveSubsystem drive;
+  public Joystick leftStick;
+  public Joystick rightStick;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param drive The subsystem used by this command.
-   */
-  public DriveTeleop(DriveSubsystem drive) {
+  public DriveTeleop (DriveSubsystem drive) {
     this.drive = drive;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drive);
-  }
+    Joystick leftStick = OperatorInterface.DriverLeft;
+    Joystick rightStick = OperatorInterface.DriverRight;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
+    double forwardSpeed = (-leftStick.getY() * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
+    double sidewaysSpeed = (leftStick.getX() * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
+    double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(-rightStick.getX() * Constants.maxAngularSpeed);
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
+    ChassisSpeeds speeds = new ChassisSpeeds(forwardSpeed, sidewaysSpeed, angularSpeed);
 
-  // Called once the command ends or is interrupted.
-
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    drive.setChassisSpeeds(speeds);
   }
 }

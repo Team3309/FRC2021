@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.setShooterToIdle;
 import frc.robot.commands.DriveTeleop;
-import frc.robot.commands.temporaryShootCommand;
 import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -28,12 +27,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  private final ShooterPrototypeSubsystem shooter = new ShooterPrototypeSubsystem();
-
-  public final OperatorInterface OI = new OperatorInterface(); // Public so that we do not need to pass it into command constructors
-
-  private final AutoCommand autoCommand = new AutoCommand(drive);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -45,7 +40,6 @@ public class RobotContainer {
 
   private void configureDefaultCommands () {
      drive.setDefaultCommand(new DriveTeleop(drive));
-     shooter.setDefaultCommand(new setShooterToIdle(shooter));
   }
 
   /**
@@ -56,8 +50,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
       
-    new JoystickButton(OI.OperatorController, XboxController.Button.kA.value)
-    .whenHeld(new temporaryShootCommand(shooter, OI.OperatorController));
+    
   }
 
   /**
@@ -66,7 +59,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return autoCommand;
+    // TODO: add a widget to smartDashboard/shuffleboard to choose which auto to run
+    return null;
   }
 }

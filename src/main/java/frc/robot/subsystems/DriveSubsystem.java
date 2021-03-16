@@ -1,5 +1,10 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -13,10 +18,12 @@ public class DriveSubsystem extends SubsystemBase {
     private SwerveModule backLeftModule;
     private SwerveModule backRightModule;
 
+    private SwerveDriveOdometry swerveOdometry;
+    private SwerveDriveKinematics swerveKinematics;
+    private Pose2d currentRobotPose = new Pose2d();
+
     /**
-     * Creates a new DriveSubsystem object.
-     *
-     *
+     * Initialize the swerve modules and Kinematics/Odometry objects
      */
     public DriveSubsystem() {
         //initialize swerve modules
@@ -24,6 +31,18 @@ public class DriveSubsystem extends SubsystemBase {
         frontRightModule = new SwerveModule(Constants.frontRightModuleDriveMotorID, Constants.frontRightModuleRotationMotorID);
         backLeftModule = new SwerveModule(Constants.backLeftModuleDriveMotorID, Constants.backLeftModuleRotationMotorID);
         backRightModule = new SwerveModule(Constants.backRightModuleDriveMotorID, Constants.backRightModuleRotationMotorID);
+
+        swerveKinematics = new SwerveDriveKinematics(
+            Constants.frontLeftModuleTranslation,
+            Constants.frontRightModuleTranslation,
+            Constants.backLeftModuleTranslation,
+            Constants.backRightModuleTranslation
+        );
+
+        swerveOdometry = new SwerveDriveOdometry(
+            swerveKinematics, 
+            getRobotRotation()
+        );
     }
 
     /***
@@ -38,9 +57,35 @@ public class DriveSubsystem extends SubsystemBase {
         backRightModule.setState(states[3]);
     }
 
+    public void setChassisSpeeds (ChassisSpeeds speeds) {
+        SwerveModuleState[] moduleStates = swerveKinematics.toSwerveModuleStates(speeds); //Generate the swerve module states
+        setModuleStates(moduleStates);
+    }
+
+    public Pose2d getRobotPose () {
+        return currentRobotPose;
+    }
+
+    public Rotation2d getRobotRotation () {
+        return Rotation2d.fromDegrees(-1/*TODO: get gyro angle*/);
+    }
+
+    public void resetOdometry (Pose2d pose) {
+        swerveOdometry.resetPosition(pose, getRobotRotation());
+    }
+
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        //Update the odometry
+        Rotation2d gyroAngle = getRobotRotation();
+
+        currentRobotPose = swerveOdometry.update(
+            gyroAngle,
+            frontLeftModule.getState(),
+            frontRightModule.getState(),
+            backLeftModule.getState(),
+            backRightModule.getState()
+        );
     }
 
 }
