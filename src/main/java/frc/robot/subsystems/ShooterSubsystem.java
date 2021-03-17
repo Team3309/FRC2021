@@ -5,7 +5,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Vision;
 import friarLib2.utility.PIDParameters;
+import friarLib2.vision.visionTarget;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -38,4 +40,9 @@ public class ShooterSubsystem extends SubsystemBase {
         bottomFlywheelMotor.stopMotor();
     }
 
+    public void aim() {
+        visionTarget target = Vision.targetCam.getBestTarget();
+
+        //TODO: aim
+    }
 }

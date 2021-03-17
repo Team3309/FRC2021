@@ -65,4 +65,11 @@ public final class Constants {
     /********** Shooter Tuning Constants **********/
     public static PIDParameters topFlywheelPID = new PIDParameters(0, 0, 0);
     public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
+
+    //TODO: documentation
+    public static double[][] aimRegressionData = {
+        {1, 80},
+        {2, 70},
+        {3, 60}
+    };
 }
