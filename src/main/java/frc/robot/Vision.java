@@ -1,7 +1,7 @@
 package frc.robot;
 
-import friarLib2.vision.limelightCamera;
-import friarLib2.vision.photonCamera;
+import friarLib2.vision.LimelightCamera;
+import friarLib2.vision.PhotonCameraWrapper;
 import friarLib2.vision.visionCamera;
 
 /**
@@ -13,7 +13,7 @@ public class Vision {
     public static visionCamera targetCam; //For Scoring
 
     public Vision () {
-        ballCam = new photonCamera(""); //TODO: photoncamera name
-        targetCam = new limelightCamera();
+        ballCam = new PhotonCameraWrapper(""); //TODO: photoncamera name
+        targetCam = new LimelightCamera();
     }
 }

@@ -1,6 +1,7 @@
 package frc.robot.commands.Autos;
 
 import frc.robot.Constants;
+import frc.robot.Vision;
 import frc.robot.subsystems.DriveSubsystem;
 
 import java.io.IOException;

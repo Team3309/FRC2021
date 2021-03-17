@@ -7,7 +7,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPipelineResult;
 import org.photonvision.PhotonTrackedTarget;
 
-public class photonCamera implements visionCamera {
+public class PhotonCameraWrapper implements visionCamera {
 
     private PhotonCamera camera;
 
@@ -16,7 +16,7 @@ public class photonCamera implements visionCamera {
      * 
      * @param name
      */
-    public photonCamera (String name) {
+    public PhotonCameraWrapper (String name) {
         camera = new PhotonCamera(name);
     }
 
@@ -72,7 +72,7 @@ public class photonCamera implements visionCamera {
     }
 
     @Override
-    public void setLights(ledMode mode) {
+    public void setLights(LedMode mode) {
         switch (mode) {
             case on: camera.setLED(LEDMode.kOn); break;
             case off: camera.setLED(LEDMode.kOff); break;
