@@ -6,14 +6,15 @@ import friarLib2.vision.visionCamera;
 
 /**
  * Container for the vision systems
- * 
  */
 public class Vision {
-    public static visionCamera ballCam; //For GSC
-    public static visionCamera targetCam; //For Scoring
+    public static visionCamera ballCam = new PhotonCameraWrapper(""); //TODO: photoncamera name
+    public static visionCamera targetCam = new LimelightCamera();
 
-    public Vision () {
-        ballCam = new PhotonCameraWrapper(""); //TODO: photoncamera name
-        targetCam = new LimelightCamera();
+    /**
+     * @return the distance in meters from the target
+     */
+    public static double getDistanceFromTarget () {
+        return 0.0; //TODO: trig?
     }
 }

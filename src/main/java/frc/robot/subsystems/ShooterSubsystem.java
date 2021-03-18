@@ -3,25 +3,32 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Vision;
+import friarLib2.math.LinearRegression;
 import friarLib2.utility.PIDParameters;
-import friarLib2.vision.visionTarget;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    WPI_TalonFX topFlywheelMotor;
-    WPI_TalonFX bottomFlywheelMotor;
+    private WPI_TalonFX topFlywheelMotor;
+    private WPI_TalonFX bottomFlywheelMotor;
 
-    public ShooterSubsystem() {
+    private LinearRegression regression;
+
+    public ShooterSubsystem () {
         topFlywheelMotor = new WPI_TalonFX(Constants.topShooterMotorID);
         bottomFlywheelMotor = new WPI_TalonFX(Constants.bottomShooterMotorID);
         configMotor(topFlywheelMotor, Constants.topFlywheelPID);
         configMotor(bottomFlywheelMotor, Constants.bottomFlywheelPID);
+
+        //Compute a linear regression of distances and shooter angles so that we can aim anywhere
+        regression = new LinearRegression(Constants.aimRegressionData);
     }
 
-    private static void configMotor(WPI_TalonFX motor, PIDParameters PID) {
+    private static void configMotor (WPI_TalonFX motor, PIDParameters PID) {
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Coast);
 
@@ -35,14 +42,20 @@ public class ShooterSubsystem extends SubsystemBase {
         bottomFlywheelMotor.set(ControlMode.Velocity, bottomFlywheelSpeed);
     }
 
-    public void stopMotors() {
+    public void stopMotors () {
         topFlywheelMotor.stopMotor();
         bottomFlywheelMotor.stopMotor();
     }
 
-    public void aim() {
-        visionTarget target = Vision.targetCam.getBestTarget();
+    public void setAngleDegrees (double angle) {
+        //TODO: set angle
+    }
 
-        //TODO: aim
+    public void setAngleRadians (double angle) {
+        setAngleDegrees(Units.radiansToDegrees(angle));
+    }
+
+    public void aim () {
+        setAngleDegrees(regression.evaluate(Vision.getDistanceFromTarget()));
     }
 }
