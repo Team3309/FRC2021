@@ -55,7 +55,17 @@ public class ShooterSubsystem extends SubsystemBase {
         setAngleDegrees(Units.radiansToDegrees(angle));
     }
 
+    public boolean isUpToSpeed () {
+        return (topFlywheelMotor.getClosedLoopError() <= Constants.flywheelSpeedTolearace) && (bottomFlywheelMotor.getClosedLoopError() <= Constants.flywheelSpeedTolearace);
+    }
+
     public void aim () {
         setAngleDegrees(regression.evaluate(Vision.getDistanceFromTarget()));
+    }
+
+    public void shoot () {
+        if (isUpToSpeed() && topFlywheelMotor.getClosedLoopTarget() + bottomFlywheelMotor.getClosedLoopTarget() != 0) {
+            //TODO: move a powercell into the flywheels
+        }
     }
 }

@@ -68,6 +68,7 @@ public final class Constants {
     public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
     public static int topFlywheelSpeed = 17000; //Encoder ticks per 100ms
     public static int bottomFlyWheelSpeed = 17000;
+    public static int flywheelSpeedTolearace = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
 
     //TODO: documentation
     public static double[][] aimRegressionData = {
