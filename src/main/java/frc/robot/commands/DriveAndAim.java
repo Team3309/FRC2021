@@ -13,7 +13,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 /**
  * Drive relative to the field while aiming to the target by adjusing the angle of the shooter and rotsationg the drivebase
  */
-public class DriveAndShoot extends CommandBase {
+public class DriveAndAim extends CommandBase {
 
     private final DriveSubsystem drive;
     private final ShooterSubsystem shooter;
@@ -21,7 +21,7 @@ public class DriveAndShoot extends CommandBase {
     private Joystick leftStick = OperatorInterface.DriverLeft;
     private Joystick rightStick = OperatorInterface.DriverRight;
 
-    public DriveAndShoot(DriveSubsystem drive, ShooterSubsystem shooter) {
+    public DriveAndAim(DriveSubsystem drive, ShooterSubsystem shooter) {
       this.drive = drive;
       this.shooter = shooter;
       addRequirements(drive, shooter);
