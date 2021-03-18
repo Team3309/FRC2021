@@ -9,14 +9,12 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveTeleop extends CommandBase {
-  DriveSubsystem drive;
-  public Joystick leftStick;
-  public Joystick rightStick;
+  private final DriveSubsystem drive;
+  private Joystick leftStick = OperatorInterface.DriverLeft;;
+  private Joystick rightStick = OperatorInterface.DriverRight;;
 
   public DriveTeleop (DriveSubsystem drive) {
     this.drive = drive;
-    Joystick leftStick = OperatorInterface.DriverLeft;
-    Joystick rightStick = OperatorInterface.DriverRight;
 
     double forwardSpeed = (-leftStick.getY() * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
     double sidewaysSpeed = (leftStick.getX() * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
