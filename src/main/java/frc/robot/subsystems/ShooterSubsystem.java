@@ -37,9 +37,9 @@ public class ShooterSubsystem extends SubsystemBase {
         motor.config_kD(0, PID.kD);
     }
 
-    public void setFlywheelSpeeds (int topFlywheelSpeed, int bottomFlywheelSpeed) {
+    public void setFlywheelSpeeds (int topFlywheelSpeed, int bottomFlyWheelSpeed) {
         topFlywheelMotor.set(ControlMode.Velocity, topFlywheelSpeed);
-        bottomFlywheelMotor.set(ControlMode.Velocity, bottomFlywheelSpeed);
+        bottomFlywheelMotor.set(ControlMode.Velocity, bottomFlyWheelSpeed);
     }
 
     public void stopMotors () {

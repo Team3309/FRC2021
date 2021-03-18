@@ -34,6 +34,7 @@ public final class Constants {
     public static final PIDParameters driveRotationPID = new PIDParameters(0, 0, 0);
     public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
     public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
+    public static final PIDController driveAimPID = new PIDController(0, 0, 0); //Controls the rotation of the drivebase when aiming
 
     /********** Physical Drive Constants **********/
     public static final int frontLeftModuleDriveMotorID = 1;
@@ -65,6 +66,8 @@ public final class Constants {
     /********** Shooter Tuning Constants **********/
     public static PIDParameters topFlywheelPID = new PIDParameters(0, 0, 0);
     public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
+    public static int topFlywheelSpeed = 17000; //Encoder ticks per 100ms
+    public static int bottomFlyWheelSpeed = 17000;
 
     //TODO: documentation
     public static double[][] aimRegressionData = {
