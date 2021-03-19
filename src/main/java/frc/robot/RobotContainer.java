@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.DriveAndAim;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.commands.Autos.*;
@@ -29,12 +30,21 @@ public class RobotContainer {
   private final DriveSubsystem drive = new DriveSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
+  private SendableChooser autoChooser = new SendableChooser<>();
   private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
+  private final FollowTrajectory slalomAuto = new FollowTrajectory(drive, "paths/slalomLeg.wpilib.json");
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    autoChooser.setDefaultOption("Bounce Path", bounceAuto);
+    autoChooser.addOption("Slalom Path", slalomAuto);
+    //autoChooser.addOption("Barrel Run", object);
+    //autoChooser.addOption("GSCA", object);
+    //autoChooser.addOption("GSCB", object);
+
     configureDefaultCommands();
     configureButtonBindings();
   }
