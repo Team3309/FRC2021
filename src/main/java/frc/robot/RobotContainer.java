@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveAndAim;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.commands.Autos.*;
@@ -30,9 +31,12 @@ public class RobotContainer {
   private final DriveSubsystem drive = new DriveSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  private SendableChooser autoChooser = new SendableChooser<>();
+  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
   private final FollowTrajectory slalomAuto = new FollowTrajectory(drive, "paths/slalomLeg.wpilib.json");
+  private final FollowTrajectory barrelAuto = new FollowTrajectory(drive, "paths/barrelRun.wpilib.json");
+  private final GSCA gsca = new GSCA(drive);
+  private final GSCB gscb = new GSCB(drive);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -41,9 +45,10 @@ public class RobotContainer {
 
     autoChooser.setDefaultOption("Bounce Path", bounceAuto);
     autoChooser.addOption("Slalom Path", slalomAuto);
-    //autoChooser.addOption("Barrel Run", object);
-    //autoChooser.addOption("GSCA", object);
-    //autoChooser.addOption("GSCB", object);
+    autoChooser.addOption("Barrel Run", barrelAuto);
+    autoChooser.addOption("GSCA", gsca);
+    autoChooser.addOption("GSCB", gscb);
+    SmartDashboard.putData(autoChooser);
 
     configureDefaultCommands();
     configureButtonBindings();
@@ -75,7 +80,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // TODO: add a widget to smartDashboard/shuffleboard to choose which auto to run
-    return bounceAuto;
+    return autoChooser.getSelected();
   }
 }
