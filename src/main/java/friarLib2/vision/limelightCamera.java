@@ -5,7 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 /**
  * Wrapper for the limelight's networktables API, which can be found at https://docs.limelightvision.io/en/latest/networktables_api.html
  */
-public class limelightCamera implements visionCamera {
+public class LimelightCamera implements visionCamera {
 
     @Override
     public boolean hasTargets() {
@@ -37,7 +37,7 @@ public class limelightCamera implements visionCamera {
     }
 
     @Override
-    public void setLights(ledMode mode) {
+    public void setLights(LedMode mode) {
         switch (mode) {
             case on: NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3); break;
             case off: NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1); break;

@@ -36,6 +36,7 @@ public final class Constants {
     public static final PIDParameters driveRotationPID = new PIDParameters(0, 0, 0);
     public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
     public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
+    public static final PIDController driveAimPID = new PIDController(0, 0, 0); //Controls the rotation of the drivebase when aiming
 
     /********** Physical Drive Constants **********/
     public static final int frontLeftModuleDriveMotorID = 1;
@@ -67,4 +68,23 @@ public final class Constants {
     /********** Shooter Tuning Constants **********/
     public static PIDParameters topFlywheelPID = new PIDParameters(0, 0, 0);
     public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
+    public static int topFlywheelSpeed = 17000; //Encoder ticks per 100ms
+    public static int bottomFlyWheelSpeed = 17000;
+    public static int flywheelSpeedTolearace = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
+
+    /**
+     * A 2D array for tuning the shooter.
+     * 
+     * The first value in each sub-array is the distance in meters from the goal. The second 
+     * one is the angle of the shooter, found through trial and error, to shoot into the goal
+     * at that distance.
+     * 
+     * VisionSubsystem computes a linear regression to fill in the relationship between
+     * distance and angle.
+     */
+    public static double[][] aimRegressionData = {
+        {1, 80},
+        {2, 70},
+        {3, 60}
+    };
 }

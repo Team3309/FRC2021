@@ -1,6 +1,6 @@
 package friarLib2.vision;
 
-public enum ledMode {
+public enum LedMode {
     on,
     off,
     currentPipeline,
