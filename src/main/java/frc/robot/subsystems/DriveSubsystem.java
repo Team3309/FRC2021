@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import friarLib2.utility.SwerveModule;
+import frc.robot.SwerveModule;
 
 public class DriveSubsystem extends SubsystemBase {
 
