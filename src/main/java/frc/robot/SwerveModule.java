@@ -1,11 +1,9 @@
-package friarLib2.utility;
+package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import frc.robot.Constants;
-import frc.robot.UnitConversions;
 
 /**
  * Class that represents a single swerve drive module
