@@ -55,10 +55,8 @@ public final class Constants {
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot
     //Positive y values represent moving toward the left of the robot
-    public static final Translation2d frontLeftModuleTranslation = new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1));
-    public static final Translation2d frontRightModuleTranslation = new Translation2d(Units.feetToMeters(1), Units.feetToMeters(-1));
-    public static final Translation2d backLeftModuleTranslation = new Translation2d(Units.feetToMeters(-1), Units.feetToMeters(1));
-    public static final Translation2d backRightModuleTranslation = new Translation2d(Units.feetToMeters(-1), Units.feetToMeters(-1));
+    public static final Translation2d leftModuleTranslation = new Translation2d(0, Units.inchesToMeters(9.4041647005));
+    public static final Translation2d rightModuleTranslation = new Translation2d(0, Units.inchesToMeters(-9.4041647005));
 
 
 
