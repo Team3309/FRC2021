@@ -30,27 +30,21 @@ public final class Constants {
     public static final double maxAngularSpeed = 20; // rpm
 
     /********** Drive Tuning Constants **********/
-    public static final PIDParameters drivePID = new PIDParameters(0, 0, 0);
-    public static final PIDParameters driveRotationPID = new PIDParameters(0, 0, 0);
+    public static final PIDParameters drivePID = new PIDParameters(.1, 0, 0);
+    public static final PIDParameters driveRotationPID = new PIDParameters(.1, 0.001, 0);
     public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
     public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
     public static final PIDController driveAimPID = new PIDController(0, 0, 0); //Controls the rotation of the drivebase when aiming
 
     /********** Physical Drive Constants **********/
-    public static final int frontLeftModuleDriveMotorID = 1;
-    public static final int frontLeftModulRotationMotorID = 2;
+    public static final int leftModuleDriveMotorID = 1;
+    public static final int leftModulRotationMotorID = 2;
 
-    public static final int frontRightModuleDriveMotorID = 3;
-    public static final int frontRightModuleRotationMotorID = 4;
-
-    public static final int backLeftModuleDriveMotorID = 5;
-    public static final int backLeftModuleRotationMotorID = 6;
-
-    public static final int backRightModuleDriveMotorID = 7;
-    public static final int backRightModuleRotationMotorID = 8;
+    public static final int rightModuleDriveMotorID = 5;
+    public static final int rightModuleRotationMotorID = 6;
 
     public static final double wheelDiameterInches = 3.8;
-    public static final double swerveModuleDriveGearRatio = (45/15) * (16/34) * (36/24) * (48/16);
+    public static final double swerveModuleDriveGearRatio = (45.0/15.0) * (16.0/34.0) * (36.0/24.0) * (48.0/16.0);
 
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot

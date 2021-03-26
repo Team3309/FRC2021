@@ -23,8 +23,8 @@ public class DriveSubsystem extends SubsystemBase {
      * Initialize the swerve modules and Kinematics/Odometry objects
      */
     public DriveSubsystem() {
-        leftModule = new SwerveModule(Constants.frontLeftModuleDriveMotorID, Constants.frontLeftModulRotationMotorID);
-        rightModule = new SwerveModule(Constants.frontRightModuleDriveMotorID, Constants.frontRightModuleRotationMotorID);
+        leftModule = new SwerveModule(Constants.leftModuleDriveMotorID, Constants.leftModulRotationMotorID);
+        rightModule = new SwerveModule(Constants.rightModuleDriveMotorID, Constants.rightModuleRotationMotorID);
 
         swerveKinematics = new SwerveDriveKinematics(
             Constants.leftModuleTranslation,

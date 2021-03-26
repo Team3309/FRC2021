@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Class that represents a single swerve drive module
@@ -37,6 +38,9 @@ public class SwerveModule {
 
         driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
         rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(state.angle.getDegrees()));
+
+        SmartDashboard.putNumber("error", driveMotor.getClosedLoopError());
+        SmartDashboard.putNumber("velocity", UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
     }
 
     public SwerveModuleState getState () {
