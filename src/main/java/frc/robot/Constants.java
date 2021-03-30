@@ -26,12 +26,12 @@ import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
  */
 public final class Constants {
     /********** Drive Control Constants **********/
-    public static final double maxDriveSpeed = 14; // ft/s
-    public static final double maxAngularSpeed = 20; // rpm
+    public static final double maxDriveSpeed = 12; // ft/s
+    public static final double maxAngularSpeed = 60; // rpm
 
     /********** Drive Tuning Constants **********/
-    public static final PIDParameters drivePID = new PIDParameters(.1, 0, 0);
-    public static final PIDParameters driveRotationPID = new PIDParameters(.1, 0.001, 0);
+    public static final PIDParameters drivePID = new PIDParameters(.1, 0.002, 0);
+    public static final PIDParameters driveRotationPID = new PIDParameters(.1, 0.002, 0);
     public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
     public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
     public static final PIDController driveAimPID = new PIDController(0, 0, 0); //Controls the rotation of the drivebase when aiming

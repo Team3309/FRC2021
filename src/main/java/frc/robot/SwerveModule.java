@@ -34,13 +34,16 @@ public class SwerveModule {
     }
 
     public void setState (SwerveModuleState state) {
-        targetState = state;
+        if (state.equals(new SwerveModuleState())) { //if state is 0
+            return;
+        }
 
-        driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
-        rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(state.angle.getDegrees()));
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, targetState.angle);
 
-        SmartDashboard.putNumber("error", driveMotor.getClosedLoopError());
-        SmartDashboard.putNumber("velocity", UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
+        targetState = optimizedState;
+
+        driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(optimizedState.speedMetersPerSecond));
+        rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(optimizedState.angle.getDegrees()));
     }
 
     public SwerveModuleState getState () {

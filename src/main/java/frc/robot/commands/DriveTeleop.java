@@ -31,8 +31,8 @@ public class DriveTeleop extends CommandBase {
     double rightstickY = xbox.getY(GenericHID.Hand.kRight);
 
     double forwardSpeed = (-leftstickY * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
-    double sidewaysSpeed = (leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
-    double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(-rightstickX * Constants.maxAngularSpeed);
+    double sidewaysSpeed = (-leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
+    double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(rightstickX * Constants.maxAngularSpeed);
 
     ChassisSpeeds speeds = new ChassisSpeeds(forwardSpeed, sidewaysSpeed, angularSpeed);
 
