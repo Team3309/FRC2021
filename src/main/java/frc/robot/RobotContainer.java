@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveAndAim;
 import frc.robot.commands.DriveTeleop;
+import frc.robot.commands.SetModuleStates;
 import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -72,6 +73,8 @@ public class RobotContainer {
     //When right trigget is pressed on Xbox controller, launch a powercell
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kRightTrigger.value)
         .whenPressed(new InstantCommand(shooter::shoot, shooter));
+
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value).whileHeld(new SetModuleStates(drive));
   }
 
   /**

@@ -1,6 +1,5 @@
 package frc.robot;
 
-import friarLib2.vision.LimelightCamera;
 import friarLib2.vision.PhotonCameraWrapper;
 import friarLib2.vision.visionCamera;
 

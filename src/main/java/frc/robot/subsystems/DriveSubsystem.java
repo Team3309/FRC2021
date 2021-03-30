@@ -12,10 +12,8 @@ import frc.robot.SwerveModule;
 
 public class DriveSubsystem extends SubsystemBase {
 
-    private SwerveModule frontLeftModule;
-    private SwerveModule frontRightModule;
-    private SwerveModule backLeftModule;
-    private SwerveModule backRightModule;
+    private SwerveModule leftModule;
+    private SwerveModule rightModule;
 
     private SwerveDriveOdometry swerveOdometry;
     private SwerveDriveKinematics swerveKinematics;
@@ -25,16 +23,12 @@ public class DriveSubsystem extends SubsystemBase {
      * Initialize the swerve modules and Kinematics/Odometry objects
      */
     public DriveSubsystem() {
-        frontLeftModule = new SwerveModule(Constants.frontLeftModuleDriveMotorID, Constants.frontLeftModulRotationMotorID);
-        frontRightModule = new SwerveModule(Constants.frontRightModuleDriveMotorID, Constants.frontRightModuleRotationMotorID);
-        backLeftModule = new SwerveModule(Constants.backLeftModuleDriveMotorID, Constants.backLeftModuleRotationMotorID);
-        backRightModule = new SwerveModule(Constants.backRightModuleDriveMotorID, Constants.backRightModuleRotationMotorID);
+        leftModule = new SwerveModule(Constants.leftModuleDriveMotorID, Constants.leftModulRotationMotorID);
+        rightModule = new SwerveModule(Constants.rightModuleDriveMotorID, Constants.rightModuleRotationMotorID);
 
         swerveKinematics = new SwerveDriveKinematics(
-            Constants.frontLeftModuleTranslation,
-            Constants.frontRightModuleTranslation,
-            Constants.backLeftModuleTranslation,
-            Constants.backRightModuleTranslation
+            Constants.leftModuleTranslation,
+            Constants.rightModuleTranslation
         );
 
         swerveOdometry = new SwerveDriveOdometry(
@@ -44,10 +38,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void setModuleStates (SwerveModuleState[] states) {
-        frontLeftModule.setState(states[0]);
-        frontRightModule.setState(states[1]);
-        backLeftModule.setState(states[2]);
-        backRightModule.setState(states[3]);
+        leftModule.setState(states[0]);
+        rightModule.setState(states[1]);
     }
 
     public void setChassisSpeeds (ChassisSpeeds speeds) {
@@ -74,10 +66,8 @@ public class DriveSubsystem extends SubsystemBase {
 
         currentRobotPose = swerveOdometry.update(
             gyroAngle,
-            frontLeftModule.getState(),
-            frontRightModule.getState(),
-            backLeftModule.getState(),
-            backRightModule.getState()
+            leftModule.getState(),
+            rightModule.getState()
         );
     }
 }
