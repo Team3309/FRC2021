@@ -25,16 +25,18 @@ public class DriveTeleop extends CommandBase {
 
   @Override
   public void execute() {
-    double leftstickX = xbox.getX(GenericHID.Hand.kLeft);
-    double leftstickY = xbox.getY(GenericHID.Hand.kLeft);
-    double rightstickX = xbox.getX(GenericHID.Hand.kRight);
-    double rightstickY = xbox.getY(GenericHID.Hand.kRight);
+    //Get joystick values, but with deadband
+    double leftstickX = (Math.abs(xbox.getX(GenericHID.Hand.kLeft)) > Constants.xboxControllerDeadband) ? xbox.getX(GenericHID.Hand.kLeft): 0;
+    double leftstickY = (Math.abs(xbox.getY(GenericHID.Hand.kLeft)) > Constants.xboxControllerDeadband) ? xbox.getY(GenericHID.Hand.kLeft): 0;
+    double rightstickX = (Math.abs(xbox.getX(GenericHID.Hand.kRight)) > Constants.xboxControllerDeadband) ? xbox.getX(GenericHID.Hand.kRight): 0;
+    double rightstickY = (Math.abs(xbox.getY(GenericHID.Hand.kRight)) > Constants.xboxControllerDeadband) ? xbox.getY(GenericHID.Hand.kRight): 0;
 
-    double forwardSpeed = (-leftstickY * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
-    double sidewaysSpeed = (-leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
+    double ySpeed = (-leftstickY * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
+    double xSpeed = (-leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
     double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(rightstickX * Constants.maxAngularSpeed);
 
-    ChassisSpeeds speeds = new ChassisSpeeds(forwardSpeed, sidewaysSpeed, angularSpeed);
+    //ChassisSpeeds speeds = new ChassisSpeeds(ySpeed, xSpeed, angularSpeed);
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, angularSpeed, drive.getRobotRotation());
 
     drive.setChassisSpeeds(speeds);
 

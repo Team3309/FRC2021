@@ -25,12 +25,15 @@ import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final double xboxControllerDeadband = .05;
+
     /********** Drive Control Constants **********/
     public static final double maxDriveSpeed = 12; // ft/s
-    public static final double maxAngularSpeed = 60; // rpm
+    public static final double maxAngularSpeed = 100; // rpm
 
     /********** Drive Tuning Constants **********/
-    public static final PIDParameters drivePID = new PIDParameters(.1, 0.002, 0);
+    public static final PIDParameters drivePID = new PIDParameters(.1, 0.001, 0.1);
     public static final PIDParameters driveRotationPID = new PIDParameters(.1, 0.002, 0);
     public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
     public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
@@ -44,7 +47,7 @@ public final class Constants {
     public static final int rightModuleRotationMotorID = 6;
 
     public static final double wheelDiameterInches = 3.8;
-    public static final double swerveModuleDriveGearRatio = (45.0/15.0) * (16.0/34.0) * (36.0/24.0) * (48.0/16.0);
+    public static final double swerveModuleDriveGearRatio = (45.0/15.0) * (16.0/34.0) * (36.0/24.0) * (50.0/36.0);
 
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot
