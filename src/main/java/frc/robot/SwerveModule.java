@@ -26,24 +26,22 @@ public class SwerveModule {
         driveMotor.config_kP(0, Constants.drivePID.kP);
         driveMotor.config_kI(0, Constants.drivePID.kI);
         driveMotor.config_kD(0, Constants.drivePID.kD);
+        driveMotor.config_IntegralZone(0, 200);
 
         rotationMotor.configFactoryDefault();
         rotationMotor.config_kP(0, Constants.driveRotationPID.kP);
         rotationMotor.config_kI(0, Constants.driveRotationPID.kI);
         rotationMotor.config_kD(0, Constants.driveRotationPID.kD);
+        rotationMotor.config_IntegralZone(0, 200);
     }
 
     public void setState (SwerveModuleState state) {
-        if (state.equals(new SwerveModuleState())) { //if state is 0
-            return;
-        }
+        state = SwerveModuleState.optimize(state, state.angle);
 
-        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, targetState.angle);
+        driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
+        rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(state.angle.getDegrees()));
 
-        targetState = optimizedState;
-
-        driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(optimizedState.speedMetersPerSecond));
-        rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(optimizedState.angle.getDegrees()));
+        targetState = state;
     }
 
     public SwerveModuleState getState () {

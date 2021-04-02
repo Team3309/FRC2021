@@ -31,7 +31,7 @@ public class SetModuleStates extends CommandBase {
 
     SwerveModuleState[] states = {
         new SwerveModuleState(1, new Rotation2d(Units.degreesToRadians(90))), 
-        new SwerveModuleState(1, new Rotation2d(Units.degreesToRadians(90)))
+        new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(0)))
     };
 
     drive.setModuleStates(states);

@@ -34,8 +34,8 @@ public class RobotContainer {
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
-  private final FollowTrajectory slalomAuto = new FollowTrajectory(drive, "paths/slalomLeg.wpilib.json");
-  private final FollowTrajectory barrelAuto = new FollowTrajectory(drive, "paths/barrelRun.wpilib.json");
+  private final FollowTrajectory slalomAuto = new FollowTrajectory(drive, "slalomLeg.wpilib.json");
+  private final FollowTrajectory barrelAuto = new FollowTrajectory(drive, "barrelRun.wpilib.json");
   private final GSCA gsca = new GSCA(drive);
   private final GSCB gscb = new GSCB(drive);
 
@@ -44,9 +44,9 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    autoChooser.setDefaultOption("Bounce Path", bounceAuto);
+    autoChooser.addOption("Bounce Path", bounceAuto);
     autoChooser.addOption("Slalom Path", slalomAuto);
-    autoChooser.addOption("Barrel Run", barrelAuto);
+    autoChooser.setDefaultOption("Barrel Run", barrelAuto);
     autoChooser.addOption("GSCA", gsca);
     autoChooser.addOption("GSCB", gscb);
     SmartDashboard.putData(autoChooser);
