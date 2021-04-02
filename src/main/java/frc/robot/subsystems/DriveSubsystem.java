@@ -70,10 +70,8 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         //Update the odometry
-        Rotation2d gyroAngle = getRobotRotation();
-
         currentRobotPose = swerveOdometry.update(
-            gyroAngle,
+            getRobotRotation(),
             leftModule.getState(),
             rightModule.getState()
         );
@@ -84,5 +82,6 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right Module Drive error", rightModule.driveMotor.getClosedLoopError());
         SmartDashboard.putNumber("Left Module Rotation error", leftModule.rotationMotor.getClosedLoopError());
         SmartDashboard.putNumber("Right Module Rotation error", rightModule.rotationMotor.getClosedLoopError());
+        SmartDashboard.putString("Odometry", currentRobotPose.toString());
     }
 }

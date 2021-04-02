@@ -9,10 +9,10 @@ import frc.robot.subsystems.DriveSubsystem;
 public class BouncePathAuto extends SequentialCommandGroup {
   public BouncePathAuto (DriveSubsystem drive) {
     addCommands(
-            new FollowTrajectory(drive, "paths/bounceLeg1.wpilib.json"),
-            new FollowTrajectory(drive, "paths/bounceLeg2.wpilib.json"),
-            new FollowTrajectory(drive, "paths/bounceLeg3.wpilib.json"),
-            new FollowTrajectory(drive, "paths/bounceLeg4.wpilib.json")
+            new FollowTrajectory(drive, "bounceLeg1.wpilib.json"),
+            new FollowTrajectory(drive, "bounceLeg2.wpilib.json"),
+            new FollowTrajectory(drive, "bounceLeg3.wpilib.json"),
+            new FollowTrajectory(drive, "bounceLeg4.wpilib.json")
     );
   }
 }

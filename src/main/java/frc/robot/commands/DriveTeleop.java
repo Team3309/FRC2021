@@ -33,7 +33,7 @@ public class DriveTeleop extends CommandBase {
 
     double ySpeed = (-leftstickY * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
     double xSpeed = (-leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
-    double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(rightstickX * Constants.maxAngularSpeed);
+    double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(-rightstickX * Constants.maxAngularSpeed);
 
     //ChassisSpeeds speeds = new ChassisSpeeds(ySpeed, xSpeed, angularSpeed);
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, angularSpeed, drive.getRobotRotation());

@@ -47,7 +47,7 @@ public final class Constants {
     public static final int rightModuleRotationMotorID = 6;
 
     public static final double wheelDiameterInches = 3.8;
-    public static final double swerveModuleDriveGearRatio = (45.0/15.0) * (16.0/34.0) * (36.0/24.0) * (50.0/36.0);
+    public static final double swerveModuleDriveGearRatio = 2.94;//(45.0/15.0) * (16.0/34.0) * (36.0/24.0) * (50.0/36.0);
 
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot

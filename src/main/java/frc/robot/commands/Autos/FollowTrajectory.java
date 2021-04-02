@@ -6,9 +6,13 @@ import frc.robot.subsystems.DriveSubsystem;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -36,13 +40,15 @@ public class FollowTrajectory extends CommandBase {
             Constants.holonomicControllerPID, 
             Constants.holonomicControllerPIDTheta
         );
+        holonomicController.setTolerance(new Pose2d(new Translation2d(.2, .2), Rotation2d.fromDegrees(360)));
 
-        openTrajectoryFromJSON(trajectory, "bounceLeg1"); //Load the pathweaver trajectory
+        trajectory = openTrajectoryFromJSON(trajectoryJSON); //Load the pathweaver trajectory
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        drive.resetOdometry(trajectory.getInitialPose());
         timer.reset();
         timer.start();
     }
@@ -50,7 +56,7 @@ public class FollowTrajectory extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        Trajectory.State goal = trajectory.sample(timer.get()); //Find the pose 
+        Trajectory.State goal = trajectory.sample(timer.get()); //Find the pose
 
         //Use the holonomic drive controller to calculate the requred chassis speeds to follow the trajectory
         drive.setChassisSpeeds(holonomicController.calculate(
@@ -68,21 +74,23 @@ public class FollowTrajectory extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return holonomicController.atReference() && timer.get() >= trajectory.getTotalTimeSeconds();
+        return /*holonomicController.atReference() &&*/ timer.get() >= trajectory.getTotalTimeSeconds();
     }
 
     /**
      * Read the JSON output from pathweaver and convert it to a trajectory object
      *
-     * @param trajectory the object to store the read trajectory into
      * @param JSONPath the path to the JSON, e.x. "paths/bounceLeg1.wpilib.json"
      */
-    private void openTrajectoryFromJSON (Trajectory trajectory, String JSONPath) {
-        String leg1JSON = JSONPath; //"paths/" + JSONName + ".wpilib.json";
-        this.trajectory = new Trajectory();
+    private Trajectory openTrajectoryFromJSON (String JSONPath) {
+        Trajectory trajectory = new Trajectory();
         try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(leg1JSON);
-            this.trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-        } catch (IOException ex) {}
+            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(JSONPath);
+            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Couldn't load trajectory", true);
+        }
+
+        return trajectory;
     }
 }
