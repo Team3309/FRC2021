@@ -68,6 +68,8 @@ public final class Constants {
     public static int bottomFlyWheelSpeed = 17000;
     public static int flywheelSpeedTolearace = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
 
+    public static int intakeMotorID = 11;
+    public static double intakeMotorStandardSpeed = 0.1;
     /**
      * A 2D array for tuning the shooter.
      * 
