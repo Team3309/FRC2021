@@ -21,6 +21,9 @@ public class SwerveModule {
         configMotors();
     }
 
+    /***
+     * Sets the motor PID values to those which will make the robot move the way we want.
+     */
     public void configMotors () {
         driveMotor.configFactoryDefault();
         driveMotor.config_kP(0, Constants.drivePID.kP);
@@ -35,6 +38,11 @@ public class SwerveModule {
         rotationMotor.config_IntegralZone(0, 200);
     }
 
+    /***
+     * Translates swerve module states to specific motor motion.
+     * 
+     * @param state The state to which the swerve module should be set.
+     */
     public void setState (SwerveModuleState state) {
         state = SwerveModuleState.optimize(state, state.angle);
 

@@ -44,6 +44,11 @@ public class DriveSubsystem extends SubsystemBase {
         );
     }
 
+    /***
+     * Sets the states of each swerve module, i.e: translates swerve module states into robot motion.
+     * 
+     * @param states The array of states to which the modules should be set.
+     */
     public void setModuleStates (SwerveModuleState[] states) {
         leftModule.setState(states[0]);
         rightModule.setState(states[1]);
@@ -84,4 +89,5 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right Module Rotation error", rightModule.rotationMotor.getClosedLoopError());
         SmartDashboard.putString("Odometry", currentRobotPose.toString());
     }
+
 }
