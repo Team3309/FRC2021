@@ -2,13 +2,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterPrototypeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class setShooterToIdle extends CommandBase {
 
-    ShooterPrototypeSubsystem shooter;
+    ShooterSubsystem shooter;
 
-    public setShooterToIdle(ShooterPrototypeSubsystem selectedShooter) {
+    public setShooterToIdle(ShooterSubsystem selectedShooter) {
         shooter = selectedShooter;
         addRequirements(shooter);
     }
@@ -21,7 +21,7 @@ public class setShooterToIdle extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putBoolean("AButton Pressed:", false);
-        shooter.stop();
+        shooter.stopMotors();
     }
 
     @Override
