@@ -1,49 +1,45 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Units;
+import frc.robot.Constants;
+import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- * An example command that uses an example subsystem.
- */
 public class DriveTeleop extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveSubsystem drive;
+  private Joystick leftStick = OperatorInterface.DriverLeft;
+  private Joystick rightStick = OperatorInterface.DriverRight;
+  private XboxController xbox = OperatorInterface.OperatorController;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param drive The subsystem used by this command.
-   */
-  public DriveTeleop(DriveSubsystem drive) {
+  public DriveTeleop (DriveSubsystem drive) {
     this.drive = drive;
-    // Use addRequirements() here to declare subsystem dependencies.
+
     addRequirements(drive);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  }
+    //Get joystick values, but with deadband
+    double leftstickX = (Math.abs(xbox.getX(GenericHID.Hand.kLeft)) > Constants.xboxControllerDeadband) ? xbox.getX(GenericHID.Hand.kLeft): 0;
+    double leftstickY = (Math.abs(xbox.getY(GenericHID.Hand.kLeft)) > Constants.xboxControllerDeadband) ? xbox.getY(GenericHID.Hand.kLeft): 0;
+    double rightstickX = (Math.abs(xbox.getX(GenericHID.Hand.kRight)) > Constants.xboxControllerDeadband) ? xbox.getX(GenericHID.Hand.kRight): 0;
+    double rightstickY = (Math.abs(xbox.getY(GenericHID.Hand.kRight)) > Constants.xboxControllerDeadband) ? xbox.getY(GenericHID.Hand.kRight): 0;
 
-  // Called once the command ends or is interrupted.
+    double ySpeed = (-leftstickY * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
+    double xSpeed = (-leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
+    double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(-rightstickX * Constants.maxAngularSpeed);
 
+    //ChassisSpeeds speeds = new ChassisSpeeds(ySpeed, xSpeed, angularSpeed);
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, angularSpeed, drive.getRobotRotation());
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    drive.setChassisSpeeds(speeds);
+
+    SmartDashboard.putString("speeds", speeds.toString());
   }
 }

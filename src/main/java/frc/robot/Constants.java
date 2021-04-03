@@ -8,8 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.util.Units;
 import friarLib2.utility.PIDParameters;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -23,50 +26,61 @@ import friarLib2.utility.PIDParameters;
  */
 public final class Constants {
 
-    public static final double mu_static = 1.23;
+    public static final double xboxControllerDeadband = .05;
+
     /********** Drive Control Constants **********/
-    public static final double maxDriveSpeed = 14; // ft/s
-    public static final double maxAngularSpeed = 20; // rpm
+    public static final double maxDriveSpeed = 12; // ft/s
+    public static final double maxAngularSpeed = 100; // rpm
 
     /********** Drive Tuning Constants **********/
-    public static final PIDParameters drivePID = new PIDParameters(0, 0, 0, 0);
-    public static final PIDParameters driveRotationPID = new PIDParameters(0, 0, 0, 0);
+    public static final PIDParameters drivePID = new PIDParameters(.1, 0.001, 0.1);
+    public static final PIDParameters driveRotationPID = new PIDParameters(.1, 0.002, 0);
+    public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
+    public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
+    public static final PIDController driveAimPID = new PIDController(0, 0, 0); //Controls the rotation of the drivebase when aiming
 
     /********** Physical Drive Constants **********/
-    public static final int frontLeftModuleDriveMotorID = 1;
-    public static final int frontLeftModulRotationMotorID = 2;
+    public static final int leftModuleDriveMotorID = 1;
+    public static final int leftModulRotationMotorID = 2;
 
-    public static final int frontRightModuleDriveMotorID = 3;
-    public static final int frontRightModuleRotationMotorID = 4;
+    public static final int rightModuleDriveMotorID = 5;
+    public static final int rightModuleRotationMotorID = 6;
 
-    public static final int backLeftModuleDriveMotorID = 5;
-    public static final int backLeftModuleRotationMotorID = 6;
-
-    public static final int backRightModuleDriveMotorID = 7;
-    public static final int backRightModuleRotationMotorID = 8;
-
-    /* Physical Shooter Constants */
-    public static final int topShooterMotorID = 9;
-    public static final int bottomShooterMotorID = 10;
-
-    /* Shooter Tuning Constants */
-    public static double topShooterMotor_kP;
-    public static double topShooterMotor_kI;
-    public static double topShooterMotor_kD;
-    public static double topShooterMotor_kF;
-
-    public static double bottomShooterMotor_kP;
-    public static double bottomShooterMotor_kI;
-    public static double bottomShooterMotor_kD;
-    public static double bottomShooterMotor_kF;
-
-    public static double shooterMotorModulation = 0.5;
+    public static final double wheelDiameterInches = 3.8;
+    public static final double swerveModuleDriveGearRatio = 2.94;//(45.0/15.0) * (16.0/34.0) * (36.0/24.0) * (50.0/36.0);
 
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot
     //Positive y values represent moving toward the left of the robot
-    public static final Translation2d frontLeftModuleTranslation = new Translation2d(Units.feetToMeters(1), Units.feetToMeters(1));
-    public static final Translation2d frontRightModuleTranslation = new Translation2d(Units.feetToMeters(1), Units.feetToMeters(-1));
-    public static final Translation2d backLeftModuleTranslation = new Translation2d(Units.feetToMeters(-1), Units.feetToMeters(1));
-    public static final Translation2d backRightModuleTranslation = new Translation2d(Units.feetToMeters(-1), Units.feetToMeters(-1));
+    public static final Translation2d leftModuleTranslation = new Translation2d(0, Units.inchesToMeters(9.4041647005));
+    public static final Translation2d rightModuleTranslation = new Translation2d(0, Units.inchesToMeters(-9.4041647005));
+
+
+
+    /********** Physical Shooter Constants **********/
+    public static final int topShooterMotorID = 9;
+    public static final int bottomShooterMotorID = 10;
+
+    /********** Shooter Tuning Constants **********/
+    public static PIDParameters topFlywheelPID = new PIDParameters(0, 0, 0);
+    public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
+    public static int topFlywheelSpeed = 17000; //Encoder ticks per 100ms
+    public static int bottomFlyWheelSpeed = 17000;
+    public static int flywheelSpeedTolearace = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
+
+    /**
+     * A 2D array for tuning the shooter.
+     * 
+     * The first value in each sub-array is the distance in meters from the goal. The second 
+     * one is the angle of the shooter, found through trial and error, to shoot into the goal
+     * at that distance.
+     * 
+     * VisionSubsystem computes a linear regression to fill in the relationship between
+     * distance and angle.
+     */
+    public static double[][] aimRegressionData = {
+        {1, 80},
+        {2, 70},
+        {3, 60}
+    };
 }

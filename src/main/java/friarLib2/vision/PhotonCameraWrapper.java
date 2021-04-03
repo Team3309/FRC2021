@@ -2,11 +2,12 @@ package friarLib2.vision;
 
 import java.util.List;
 
+import org.photonvision.LEDMode;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPipelineResult;
 import org.photonvision.PhotonTrackedTarget;
 
-public class photonCamera implements visionCamera {
+public class PhotonCameraWrapper implements visionCamera {
 
     private PhotonCamera camera;
 
@@ -15,7 +16,7 @@ public class photonCamera implements visionCamera {
      * 
      * @param name
      */
-    public photonCamera (String name) {
+    public PhotonCameraWrapper (String name) {
         camera = new PhotonCamera(name);
     }
 
@@ -32,7 +33,6 @@ public class photonCamera implements visionCamera {
      */
     @Override
     public visionTarget[] getTargets() {
-
         //Get the list of targets
         PhotonPipelineResult result = camera.getLatestResult();
         List<PhotonTrackedTarget> targetList = result.getTargets();
@@ -44,8 +44,9 @@ public class photonCamera implements visionCamera {
                 targetList.get(i).getYaw(), 
                 targetList.get(i).getPitch(), 
                 targetList.get(i).getArea(), 
-                targetList.get(i).getSkew());
-        }
+                targetList.get(i).getSkew(),
+                targetList.get(i).getCameraToTarget());
+            }
         return targets;
     }
 
@@ -67,6 +68,16 @@ public class photonCamera implements visionCamera {
         } else {
             camera.setDriverMode(false);
             camera.setPipelineIndex(Integer.parseInt(pipeline));
+        }
+    }
+
+    @Override
+    public void setLights(LedMode mode) {
+        switch (mode) {
+            case on: camera.setLED(LEDMode.kOn); break;
+            case off: camera.setLED(LEDMode.kOff); break;
+            case blink: camera.setLED(LEDMode.kBlink); break;
+            case currentPipeline: camera.setLED(LEDMode.kDefault); break;
         }
     }
 }

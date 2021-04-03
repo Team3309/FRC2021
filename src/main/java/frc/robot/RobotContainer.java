@@ -9,15 +9,18 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.setShooterToIdle;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveAndAim;
 import frc.robot.commands.DriveTeleop;
-import frc.robot.commands.temporaryShootCommand;
+import frc.robot.commands.SetModuleStates;
 import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterPrototypeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -28,24 +31,33 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-  private final ShooterPrototypeSubsystem shooter = new ShooterPrototypeSubsystem();
-
-  public final OperatorInterface OI = new OperatorInterface(); // Public so that we do not need to pass it into command constructors
-
-  private final AutoCommand autoCommand = new AutoCommand(drive);
+  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
+  private final FollowTrajectory slalomAuto = new FollowTrajectory(drive, "slalomLeg.wpilib.json");
+  private final FollowTrajectory barrelAuto = new FollowTrajectory(drive, "barrelRun.wpilib.json");
+  private final GSCA gsca = new GSCA(drive);
+  private final GSCB gscb = new GSCB(drive);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    autoChooser.addOption("Bounce Path", bounceAuto);
+    autoChooser.addOption("Slalom Path", slalomAuto);
+    autoChooser.setDefaultOption("Barrel Run", barrelAuto);
+    autoChooser.addOption("GSCA", gsca);
+    autoChooser.addOption("GSCB", gscb);
+    SmartDashboard.putData(autoChooser);
+
     configureDefaultCommands();
     configureButtonBindings();
   }
 
   private void configureDefaultCommands () {
      drive.setDefaultCommand(new DriveTeleop(drive));
-     shooter.setDefaultCommand(new setShooterToIdle(shooter));
   }
 
   /**
@@ -55,9 +67,15 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-      
-    new JoystickButton(OI.OperatorController, XboxController.Button.kA.value)
-    .whenHeld(new temporaryShootCommand(shooter, OI.OperatorController));
+    //When right bumper is pressed on Xbox controller, toggle DriveAndAim
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperRight.value)
+        .toggleWhenPressed(new DriveAndAim(drive, shooter));
+
+    //When right trigget is pressed on Xbox controller, launch a powercell
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kRightTrigger.value)
+        .whenPressed(new InstantCommand(shooter::shoot, shooter));
+
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value).whileHeld(new SetModuleStates(drive));
   }
 
   /**
@@ -66,7 +84,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return autoCommand;
+    return autoChooser.getSelected();
   }
 }
