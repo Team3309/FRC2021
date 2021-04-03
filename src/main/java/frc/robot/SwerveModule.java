@@ -1,11 +1,10 @@
-package friarLib2.utility;
+package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import frc.robot.Constants;
-import frc.robot.UnitConversions;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Class that represents a single swerve drive module
@@ -45,10 +44,16 @@ public class SwerveModule {
      * @param state The state to which the swerve module should be set.
      */
     public void setState (SwerveModuleState state) {
-        targetState = state;
+        if (state.equals(new SwerveModuleState())) { //if state is 0
+            return;
+        }
 
-        driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
-        rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(state.angle.getDegrees()));
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, targetState.angle);
+
+        targetState = optimizedState;
+
+        driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(optimizedState.speedMetersPerSecond));
+        rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(optimizedState.angle.getDegrees()));
     }
 
     public SwerveModuleState getState () {

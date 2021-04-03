@@ -33,7 +33,6 @@ public class PhotonCameraWrapper implements visionCamera {
      */
     @Override
     public visionTarget[] getTargets() {
-
         //Get the list of targets
         PhotonPipelineResult result = camera.getLatestResult();
         List<PhotonTrackedTarget> targetList = result.getTargets();
@@ -45,8 +44,9 @@ public class PhotonCameraWrapper implements visionCamera {
                 targetList.get(i).getYaw(), 
                 targetList.get(i).getPitch(), 
                 targetList.get(i).getArea(), 
-                targetList.get(i).getSkew());
-        }
+                targetList.get(i).getSkew(),
+                targetList.get(i).getCameraToTarget());
+            }
         return targets;
     }
 

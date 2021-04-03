@@ -9,19 +9,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-<<<<<<< HEAD
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.setShooterToIdle;
-=======
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveAndAim;
->>>>>>> 36db5c99832d714adb2a8c71051598b495374f02
 import frc.robot.commands.DriveTeleop;
+import frc.robot.commands.SetModuleStates;
 import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ShooterPrototypeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,15 +32,12 @@ public class RobotContainer {
   private final DriveSubsystem drive = new DriveSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
 
-<<<<<<< HEAD
-=======
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
   private final FollowTrajectory slalomAuto = new FollowTrajectory(drive, "paths/slalomLeg.wpilib.json");
   private final FollowTrajectory barrelAuto = new FollowTrajectory(drive, "paths/barrelRun.wpilib.json");
   private final GSCA gsca = new GSCA(drive);
   private final GSCB gscb = new GSCB(drive);
->>>>>>> 36db5c99832d714adb2a8c71051598b495374f02
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -74,10 +66,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-<<<<<<< HEAD
-      
-    
-=======
+
     //When right bumper is pressed on Xbox controller, toggle DriveAndAim
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperRight.value)
         .toggleWhenPressed(new DriveAndAim(drive, shooter));
@@ -85,7 +74,10 @@ public class RobotContainer {
     //When right trigget is pressed on Xbox controller, launch a powercell
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kRightTrigger.value)
         .whenPressed(new InstantCommand(shooter::shoot, shooter));
->>>>>>> 36db5c99832d714adb2a8c71051598b495374f02
+
+
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value).whileHeld(new SetModuleStates(drive));
+
   }
 
   /**
@@ -94,11 +86,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-<<<<<<< HEAD
+
     // TODO: add a widget to smartDashboard/shuffleboard to choose which auto to run
-    return null;
-=======
+
+
     return autoChooser.getSelected();
->>>>>>> 36db5c99832d714adb2a8c71051598b495374f02
+
   }
 }
