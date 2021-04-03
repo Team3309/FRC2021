@@ -29,6 +29,7 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public DriveSubsystem() {
         imu = new ADIS16470_IMU();
+        imu.calibrate();
 
         leftModule = new SwerveModule(Constants.leftModuleDriveMotorID, Constants.leftModulRotationMotorID);
         rightModule = new SwerveModule(Constants.rightModuleDriveMotorID, Constants.rightModuleRotationMotorID);

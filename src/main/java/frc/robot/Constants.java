@@ -35,8 +35,8 @@ public final class Constants {
     /********** Drive Tuning Constants **********/
     public static final PIDParameters drivePID = new PIDParameters(.1, 0.001, 0.1);
     public static final PIDParameters driveRotationPID = new PIDParameters(.1, 0.002, 0);
-    public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
-    public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
+    public static final PIDController holonomicControllerPID = new PIDController(.1, 0, 0);
+    public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(.1, 0, 0, new TrapezoidProfile.Constraints(0, 0));
     public static final PIDController driveAimPID = new PIDController(0, 0, 0); //Controls the rotation of the drivebase when aiming
 
     /********** Physical Drive Constants **********/
@@ -60,6 +60,13 @@ public final class Constants {
     /********** Physical Shooter Constants **********/
     public static final int topShooterMotorID = 9;
     public static final int bottomShooterMotorID = 10;
+
+    /*
+     * See https://photos.google.com/u/1/photo/AF1QipN6BZ05ZhEWi89uwusuFR4eUEyHCo-4Ylrg3jJu for more details 
+     */
+    public static final double shooterTriangleB = 4.825; //in
+    public static final double shooterTrinagleC = 4.545; //in
+    public static final double shooterTriangleA = 6.81; //degrees
 
     /********** Shooter Tuning Constants **********/
     public static PIDParameters topFlywheelPID = new PIDParameters(0, 0, 0);

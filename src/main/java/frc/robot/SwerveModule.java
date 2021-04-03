@@ -3,8 +3,8 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Class that represents a single swerve drive module
@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SwerveModule {
     public WPI_TalonFX driveMotor;
     public WPI_TalonFX rotationMotor;
-
-    private SwerveModuleState targetState = new SwerveModuleState();
 
     public SwerveModule (int driveMotorID, int rotationMotorID) {
         driveMotor = new WPI_TalonFX(driveMotorID);
@@ -36,15 +34,15 @@ public class SwerveModule {
     }
 
     public void setState (SwerveModuleState state) {
-        state = SwerveModuleState.optimize(state, state.angle);
+        state = SwerveModuleState.optimize(state, getState().angle);
 
         driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
         rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(state.angle.getDegrees()));
-
-        targetState = state;
     }
 
     public SwerveModuleState getState () {
-        return targetState;
+        return new SwerveModuleState(
+                driveMotor.getSelectedSensorVelocity() / UnitConversions.driveMPSToEncoderTicksPer100ms(1), 
+                Rotation2d.fromDegrees(rotationMotor.getSelectedSensorPosition() / UnitConversions.driveDegreesToEncoderTicks(1)));
     }
 }
