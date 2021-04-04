@@ -34,7 +34,7 @@ public class SwerveModule {
     }
 
     public void setState (SwerveModuleState state) {
-        state = SwerveModuleState.optimize(state, getState().angle);
+        state = optimizeState(getState(), state);
 
         driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
         rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(state.angle.getDegrees()));
@@ -44,5 +44,13 @@ public class SwerveModule {
         return new SwerveModuleState(
                 driveMotor.getSelectedSensorVelocity() / UnitConversions.driveMPSToEncoderTicksPer100ms(1), 
                 Rotation2d.fromDegrees(rotationMotor.getSelectedSensorPosition() / UnitConversions.driveDegreesToEncoderTicks(1)));
+    }
+
+    public static SwerveModuleState optimizeState (SwerveModuleState currentState, SwerveModuleState targetState) {
+        if (targetState.angle.minus(currentState.angle).getDegrees() < 180) {
+            return targetState;
+        } else {
+            return new SwerveModuleState(-targetState.speedMetersPerSecond, targetState.angle.plus(Rotation2d.fromDegrees(180)));
+        }
     }
 }
