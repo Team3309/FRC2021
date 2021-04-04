@@ -65,7 +65,7 @@ public final class Constants {
      * See https://photos.google.com/u/1/photo/AF1QipN6BZ05ZhEWi89uwusuFR4eUEyHCo-4Ylrg3jJu for more details 
      */
     public static final double shooterTriangleB = 4.825; //in
-    public static final double shooterTrinagleC = 4.545; //in
+    public static final double shooterTriangleC = 4.545; //in
     public static final double shooterTriangleA = 6.81; //degrees
 
     /********** Shooter Tuning Constants **********/

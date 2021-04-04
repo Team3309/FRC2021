@@ -9,7 +9,15 @@ public class UnitConversions {
         //return 4290;
     }
 
-    public static double driveDegreesToEncoderTicks(double degrees) {
+    public static double driveEncoderTicksPer100msToMPS (double encoderTicksPer100ms) {
+        return encoderTicksPer100ms / driveMPSToEncoderTicksPer100ms(1);
+    }
+
+    public static double driveDegreesToEncoderTicks (double degrees) {
         return degrees * (2048.0 / 360.0) * ((100.0 / 24.0) * (48.0/16.0));
+    }
+
+    public static double driveEncoderTicksToDegrees (double encoderTicks) {
+        return encoderTicks / driveDegreesToEncoderTicks(1);
     }
 }

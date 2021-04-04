@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 
@@ -42,8 +43,8 @@ public class SwerveModule {
 
     public SwerveModuleState getState () {
         return new SwerveModuleState(
-                driveMotor.getSelectedSensorVelocity() / UnitConversions.driveMPSToEncoderTicksPer100ms(1), 
-                Rotation2d.fromDegrees(rotationMotor.getSelectedSensorPosition() / UnitConversions.driveDegreesToEncoderTicks(1)));
+                UnitConversions.driveEncoderTicksPer100msToMPS(driveMotor.getSelectedSensorVelocity()), 
+                Rotation2d.fromDegrees(UnitConversions.driveEncoderTicksToDegrees(rotationMotor.getSelectedSensorPosition())));
     }
 
     public static SwerveModuleState optimizeState (SwerveModuleState currentState, SwerveModuleState targetState) {
