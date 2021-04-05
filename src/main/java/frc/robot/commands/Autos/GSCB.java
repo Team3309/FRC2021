@@ -4,13 +4,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Relay.InvalidValueException;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.commands.components.IntakePowerCell;
 
 public class GSCB extends CommandBase {
-    private final DriveSubsystem drive;
+    private DriveSubsystem drive;
+    private IntakeSubsystem intake;
     private boolean red = false;
   
-    public GSCB(DriveSubsystem drive) {
-      this.drive = drive;
+    public GSCB(DriveSubsystem drive, IntakeSubsystem intake) {
+      drive = this.drive;
+      intake = this.intake;
 
       if (DriverStation.getInstance().getAlliance() != DriverStation.Alliance.Invalid) {
         if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red) {
@@ -20,7 +24,7 @@ public class GSCB extends CommandBase {
         throw new InvalidValueException("Invalid Alliance.");
       }
       // Use addRequirements() here to declare subsystem dependencies.
-      addRequirements(drive);
+      addRequirements(drive, intake);
     }
   
     // Called when the command is initially scheduled.
@@ -32,6 +36,7 @@ public class GSCB extends CommandBase {
     @Override
     public void execute() {
 
+      new IntakePowerCell(intake);
       if (red) {
         new FollowTrajectory(drive, "GSCB-red.wpilib.json");
       } else if (!red) {
