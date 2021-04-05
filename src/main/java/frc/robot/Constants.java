@@ -70,6 +70,8 @@ public final class Constants {
 
     public static int intakeMotorID = 11;
     public static double intakeMotorStandardSpeed = 0.1;
+    public static int stowMotorID = 12;
+    public static double stowMotorStandardSpeed = 0.01;
     /**
      * A 2D array for tuning the shooter.
      * 
