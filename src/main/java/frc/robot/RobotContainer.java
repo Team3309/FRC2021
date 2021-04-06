@@ -66,6 +66,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
     //When right bumper is pressed on Xbox controller, toggle DriveAndAim
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperRight.value)
         .toggleWhenPressed(new DriveAndAim(drive, shooter));
@@ -74,7 +75,9 @@ public class RobotContainer {
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kRightTrigger.value)
         .whenPressed(new InstantCommand(shooter::shoot, shooter));
 
+
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value).whileHeld(new SetModuleStates(drive));
+
   }
 
   /**
@@ -83,6 +86,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
+    // TODO: add a widget to smartDashboard/shuffleboard to choose which auto to run
+
+
     return autoChooser.getSelected();
+
   }
 }

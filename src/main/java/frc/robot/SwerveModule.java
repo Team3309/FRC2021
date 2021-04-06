@@ -24,6 +24,9 @@ public class SwerveModule {
         configMotors();
     }
 
+    /***
+     * Sets the motor PID values to those which will make the robot move the way we want.
+     */
     public void configMotors () {
         driveMotor.configFactoryDefault();
         driveMotor.config_kP(0, Constants.drivePID.kP);
