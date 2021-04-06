@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -17,8 +19,7 @@ public class DriveAndAim extends CommandBase {
     private final DriveSubsystem drive;
     private final ShooterSubsystem shooter;
 
-    private Joystick leftStick = OperatorInterface.DriverLeft;
-    private Joystick rightStick = OperatorInterface.DriverRight;
+    private XboxController xbox = OperatorInterface.OperatorController;
 
     public DriveAndAim(DriveSubsystem drive, ShooterSubsystem shooter) {
       this.drive = drive;
@@ -35,11 +36,16 @@ public class DriveAndAim extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-      shooter.aim(); //Set the angle of the shooter based on distance from target
+      double leftstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kLeft), Constants.xboxControllerDeadband);
+      double leftstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kLeft), Constants.xboxControllerDeadband);
+      double rightstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
+      double rightstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
 
-      double forwardSpeed = (-leftStick.getY() * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
-      double sidewaysSpeed = (leftStick.getX() * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
-      double angularSpeed = Constants.driveAimPID.calculate(Vision.targetCam.getBestTarget().getX(), 0);
+      //shooter.aim(); //Set the angle of the shooter based on distance from target
+
+      double forwardSpeed = (-leftstickY * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
+      double sidewaysSpeed = (leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
+      double angularSpeed = 0;//Constants.driveAimPID.calculate(Vision.targetCam.getBestTarget().getX(), 0);
 
       //Set drive speeds relative to field
       ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forwardSpeed, sidewaysSpeed, angularSpeed, drive.getRobotRotation());

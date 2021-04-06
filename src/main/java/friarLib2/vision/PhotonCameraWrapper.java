@@ -7,7 +7,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPipelineResult;
 import org.photonvision.PhotonTrackedTarget;
 
-public class PhotonCameraWrapper implements visionCamera {
+public class PhotonCameraWrapper implements VisionCamera {
 
     private PhotonCamera camera;
 
@@ -32,15 +32,15 @@ public class PhotonCameraWrapper implements visionCamera {
      * @return an array of visionTarget objects
      */
     @Override
-    public visionTarget[] getTargets() {
+    public VisionTarget[] getTargets() {
         //Get the list of targets
         PhotonPipelineResult result = camera.getLatestResult();
         List<PhotonTrackedTarget> targetList = result.getTargets();
 
         //Parse the PhotonTrackedTarget into visionTarget
-        visionTarget[] targets = new visionTarget[targetList.size()];
+        VisionTarget[] targets = new VisionTarget[targetList.size()];
         for (int i = 0; i < targets.length; i++) {
-            targets[i] = new visionTarget(
+            targets[i] = new VisionTarget(
                 targetList.get(i).getYaw(), 
                 targetList.get(i).getPitch(), 
                 targetList.get(i).getArea(), 
@@ -54,7 +54,7 @@ public class PhotonCameraWrapper implements visionCamera {
      * @return the object with index 0
      */
     @Override
-    public visionTarget getBestTarget() {
+    public VisionTarget getBestTarget() {
         return getTargets()[0];
     }
 

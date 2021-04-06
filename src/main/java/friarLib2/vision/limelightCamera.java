@@ -5,7 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 /**
  * Wrapper for the limelight's networktables API, which can be found at https://docs.limelightvision.io/en/latest/networktables_api.html
  */
-public class LimelightCamera implements visionCamera {
+public class LimelightCamera implements VisionCamera {
 
     @Override
     public boolean hasTargets() {
@@ -13,21 +13,21 @@ public class LimelightCamera implements visionCamera {
     }
 
     @Override
-    public visionTarget[] getTargets() {
+    public VisionTarget[] getTargets() {
 
-        visionTarget target = new visionTarget(
+        VisionTarget target = new VisionTarget(
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0), 
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0), 
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0), 
             NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0));
 
-        visionTarget[] targets = {target}; //Limelight only supports one target
+        VisionTarget[] targets = {target}; //Limelight only supports one target
         
         return targets;
     }
 
     @Override
-    public visionTarget getBestTarget() {
+    public VisionTarget getBestTarget() {
         return getTargets()[0];
     }
 
