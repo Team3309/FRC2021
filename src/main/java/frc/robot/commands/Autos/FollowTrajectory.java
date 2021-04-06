@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -64,6 +65,10 @@ public class FollowTrajectory extends CommandBase {
             goal, 
             drive.getRobotRotation()
         ));
+        
+        SmartDashboard.putString("Holonomic controller error", drive.getRobotPose().minus(goal.poseMeters).toString());
+        SmartDashboard.putNumber("Holonomic x error",  drive.getRobotPose().minus(goal.poseMeters).getTranslation().getX());
+        SmartDashboard.putNumber("Holonomic y error",  drive.getRobotPose().minus(goal.poseMeters).getTranslation().getY());
     }
 
     // Called once the command ends or is interrupted.
@@ -83,6 +88,8 @@ public class FollowTrajectory extends CommandBase {
      * @param JSONPath the path to the JSON, e.x. "paths/bounceLeg1.wpilib.json"
      */
     private Trajectory openTrajectoryFromJSON (String JSONPath) {
+        JSONPath = "output/" + JSONPath;
+
         Trajectory trajectory = new Trajectory();
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(JSONPath);

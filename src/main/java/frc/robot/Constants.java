@@ -29,15 +29,15 @@ public final class Constants {
     public static final double xboxControllerDeadband = .05;
 
     /********** Drive Control Constants **********/
-    public static final double maxDriveSpeed = 14; // ft/s
+    public static final double maxDriveSpeed = 18; // ft/s
     public static final double absouluteMaxDriveSpeed = 24; // doesn't let any one module exeed this speed
     public static final double maxAngularSpeed = 200; // rpm
 
     /********** Drive Tuning Constants **********/
     public static final PIDParameters drivePID = new PIDParameters(.1, 0.0007, 0.1);
     public static final PIDParameters driveRotationPID = new PIDParameters(.1, 0.002, 0);
-    public static final PIDController holonomicControllerPID = new PIDController(.1, 0, 0);
-    public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(.1, 0, 0, new TrapezoidProfile.Constraints(0, 0));
+    public static final PIDController holonomicControllerPID = new PIDController(9, 3, 0);
+    public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
     public static final PIDController driveAimPID = new PIDController(.1, 0, 0); //Controls the rotation of the drivebase when aiming
 
     /********** Physical Drive Constants **********/
