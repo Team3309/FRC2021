@@ -30,7 +30,7 @@ public final class Constants {
 
     /********** Drive Control Constants **********/
     public static final double maxDriveSpeed = 14; // ft/s
-    public static final double absouluteMaxDriveSpeed = 24; // ft/s
+    public static final double absouluteMaxDriveSpeed = 24; // doesn't let any one module exeed this speed
     public static final double maxAngularSpeed = 200; // rpm
 
     /********** Drive Tuning Constants **********/
@@ -61,17 +61,12 @@ public final class Constants {
     /********** Physical Shooter Constants **********/
     public static final int topShooterMotorID = 9;
     public static final int bottomShooterMotorID = 10;
-
-    /*
-     * See https://photos.google.com/u/1/photo/AF1QipN6BZ05ZhEWi89uwusuFR4eUEyHCo-4Ylrg3jJu for more details 
-     */
-    public static final double shooterTriangleB = 4.825; //in
-    public static final double shooterTriangleC = 4.545; //in
-    public static final double shooterTriangleA = 6.81; //degrees
+    public static final int shooterLinearMotorID = 11;
 
     /********** Shooter Tuning Constants **********/
     public static PIDParameters topFlywheelPID = new PIDParameters(.27, 0.0005, 0.2);
     public static PIDParameters bottomFlywheelPID = new PIDParameters(.27, 0.0005, 0.2);
+    public static PIDParameters shooterLinearMotorPID = new PIDParameters(1, 0, 0); // Basically bang-bang control
     public static int topFlywheelSpeed = 18000; //Encoder ticks per 100ms
     public static int bottomFlyWheelSpeed = 19000;
     public static int flywheelSpeedTolearace = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
