@@ -36,10 +36,10 @@ public class DriveAndAim extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-      double leftstickX = (Math.abs(xbox.getX(GenericHID.Hand.kLeft)) > Constants.xboxControllerDeadband) ? xbox.getX(GenericHID.Hand.kLeft): 0;
-      double leftstickY = (Math.abs(xbox.getY(GenericHID.Hand.kLeft)) > Constants.xboxControllerDeadband) ? xbox.getY(GenericHID.Hand.kLeft): 0;
-      double rightstickX = (Math.abs(xbox.getX(GenericHID.Hand.kRight)) > Constants.xboxControllerDeadband) ? xbox.getX(GenericHID.Hand.kRight): 0;
-      double rightstickY = (Math.abs(xbox.getY(GenericHID.Hand.kRight)) > Constants.xboxControllerDeadband) ? xbox.getY(GenericHID.Hand.kRight): 0;  
+      double leftstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kLeft), Constants.xboxControllerDeadband);
+      double leftstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kLeft), Constants.xboxControllerDeadband);
+      double rightstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
+      double rightstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
 
       //shooter.aim(); //Set the angle of the shooter based on distance from target
 

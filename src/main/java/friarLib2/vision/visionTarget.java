@@ -2,7 +2,7 @@ package friarLib2.vision;
 
 import edu.wpi.first.wpilibj.geometry.Transform2d;
 
-public class visionTarget {
+public class VisionTarget {
 
     private double x; //X offset from crosshair (Yaw)
     private double y; //Y offset from crosshair (Pitch)
@@ -10,7 +10,7 @@ public class visionTarget {
     private double skew; //Skew
     private Transform2d pose; //Location of target relative to robot
 
-    public visionTarget () {
+    public VisionTarget () {
         x = 0;
         y = 0;
         area = 0;
@@ -18,7 +18,7 @@ public class visionTarget {
         pose = new Transform2d();
     }
 
-    public visionTarget (double x, double y, double area, double skew) {
+    public VisionTarget (double x, double y, double area, double skew) {
         this.x = x;
         this.y = y;
         this.area = area;
@@ -26,7 +26,7 @@ public class visionTarget {
         pose = new Transform2d();
     }
 
-    public visionTarget (double x, double y, double area, double skew, Transform2d pose) {
+    public VisionTarget (double x, double y, double area, double skew, Transform2d pose) {
         this.x = x;
         this.y = y;
         this.area = area;

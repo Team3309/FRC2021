@@ -26,10 +26,10 @@ public class DriveTeleop extends CommandBase {
   @Override
   public void execute() {
     //Get joystick values, but with deadband
-    double leftstickX = (Math.abs(xbox.getX(GenericHID.Hand.kLeft)) > Constants.xboxControllerDeadband) ? xbox.getX(GenericHID.Hand.kLeft): 0;
-    double leftstickY = (Math.abs(xbox.getY(GenericHID.Hand.kLeft)) > Constants.xboxControllerDeadband) ? xbox.getY(GenericHID.Hand.kLeft): 0;
-    double rightstickX = (Math.abs(xbox.getX(GenericHID.Hand.kRight)) > Constants.xboxControllerDeadband) ? xbox.getX(GenericHID.Hand.kRight): 0;
-    double rightstickY = (Math.abs(xbox.getY(GenericHID.Hand.kRight)) > Constants.xboxControllerDeadband) ? xbox.getY(GenericHID.Hand.kRight): 0;
+    double leftstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kLeft), Constants.xboxControllerDeadband);
+    double leftstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kLeft), Constants.xboxControllerDeadband);
+    double rightstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
+    double rightstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
 
     double ySpeed = (-leftstickY * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
     double xSpeed = (-leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
