@@ -60,17 +60,21 @@ public final class Constants {
     /********** Physical Shooter Constants **********/
     public static final int topShooterMotorID = 9;
     public static final int bottomShooterMotorID = 10;
+    public static final int feederMotorID = 11;
+    public static final double linMotorThreadsPerIn = 0.0;
+    public static final double linMotorTranslation = 0.0;
 
     /********** Shooter Tuning Constants **********/
     public static PIDParameters topFlywheelPID = new PIDParameters(0, 0, 0);
     public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
     public static int topFlywheelSpeed = 17000; //Encoder ticks per 100ms
     public static int bottomFlyWheelSpeed = 17000;
+    public static int feederMotorStandardSpeed = 1000;
     public static int flywheelSpeedTolerance = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
 
-    public static int intakeMotorID = 11;
-    public static double intakeMotorStandardSpeed = 0.1;
-    public static int stowMotorID = 12;
+    public static int intakeMotorID = 12;
+    public static double intakeMotorStandardSpeed = 1000;
+    public static int stowMotorID = 13;
     public static double stowMotorStandardSpeed = 0.01;
     /**
      * A 2D array for tuning the shooter.

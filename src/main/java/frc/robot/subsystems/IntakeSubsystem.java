@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -10,13 +10,13 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase{
     
-    private TalonFX intakeMotor;
-    private TalonFX stowMotor;
+    private WPI_TalonFX intakeMotor;
+    private WPI_TalonFX stowMotor;
 
     public IntakeSubsystem() {
-        intakeMotor = new TalonFX(Constants.intakeMotorID);
+        intakeMotor = new WPI_TalonFX(Constants.intakeMotorID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
-        stowMotor = new TalonFX(Constants.stowMotorID);
+        stowMotor = new WPI_TalonFX(Constants.stowMotorID);
         stowMotor.setNeutralMode(NeutralMode.Brake);
     }
 

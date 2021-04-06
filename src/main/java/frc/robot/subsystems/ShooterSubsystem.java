@@ -15,12 +15,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private WPI_TalonFX topFlywheelMotor;
     private WPI_TalonFX bottomFlywheelMotor;
+    private WPI_TalonFX feederMotor;
 
     private LinearRegression regression;
 
     public ShooterSubsystem () {
         topFlywheelMotor = new WPI_TalonFX(Constants.topShooterMotorID);
         bottomFlywheelMotor = new WPI_TalonFX(Constants.bottomShooterMotorID);
+        feederMotor = new WPI_TalonFX(Constants.feederMotorID);
         configMotor(topFlywheelMotor, Constants.topFlywheelPID);
         configMotor(bottomFlywheelMotor, Constants.bottomFlywheelPID);
 
@@ -63,9 +65,14 @@ public class ShooterSubsystem extends SubsystemBase {
         setAngleDegrees(regression.evaluate(Vision.getDistanceFromTarget()));
     }
 
+    public void feed() {
+        feederMotor.set(ControlMode.Velocity, Constants.feederMotorStandardSpeed);
+    }
     public void shoot () {
         if (isUpToSpeed() && topFlywheelMotor.getClosedLoopTarget() + bottomFlywheelMotor.getClosedLoopTarget() != 0) {
-            //TODO: move a powercell into the flywheels
+            feed();
         }
     }
+
+    
 }
