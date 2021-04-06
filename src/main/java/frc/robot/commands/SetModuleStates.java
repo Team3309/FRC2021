@@ -30,7 +30,7 @@ public class SetModuleStates extends CommandBase {
     double rightstickY = xbox.getY(GenericHID.Hand.kRight);
 
     SwerveModuleState[] states = {
-        new SwerveModuleState(1, new Rotation2d(Units.degreesToRadians(90))), 
+        new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(360))), 
         new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(0)))
     };
 

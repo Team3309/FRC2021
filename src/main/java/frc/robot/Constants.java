@@ -29,8 +29,9 @@ public final class Constants {
     public static final double xboxControllerDeadband = .05;
 
     /********** Drive Control Constants **********/
-    public static final double maxDriveSpeed = 12; // ft/s
-    public static final double maxAngularSpeed = 100; // rpm
+    public static final double maxDriveSpeed = 14; // ft/s
+    public static final double absouluteMaxDriveSpeed = 24; // ft/s
+    public static final double maxAngularSpeed = 200; // rpm
 
     /********** Drive Tuning Constants **********/
     public static final PIDParameters drivePID = new PIDParameters(.1, 0.0007, 0.1);

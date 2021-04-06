@@ -20,4 +20,12 @@ public class UnitConversions {
     public static double driveEncoderTicksToDegrees (double encoderTicks) {
         return encoderTicks / driveDegreesToEncoderTicks(1);
     }
+
+    public static double zeroTo360ToPlusMinus180 (double degrees) {
+        if (degrees > 180) {
+            return degrees - 360;
+        } else {
+            return degrees;
+        }
+    }
 }
