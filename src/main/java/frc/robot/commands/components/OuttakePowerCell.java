@@ -22,7 +22,8 @@ public class OuttakePowerCell extends CommandBase {
         intake.outtakePowerCells();
     }
 
-    public void end() {
+    @Override
+    public void end(boolean interrupted) {
 
     }
 

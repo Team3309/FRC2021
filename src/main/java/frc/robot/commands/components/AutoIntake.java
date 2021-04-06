@@ -28,8 +28,8 @@ public class AutoIntake extends CommandBase {
     @Override
     public void execute() {}
 
-    
-    public void end() {}
+    @Override
+    public void end(boolean interrupted) {}
 
     @Override
     public boolean isFinished() {

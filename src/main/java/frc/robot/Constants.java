@@ -66,7 +66,7 @@ public final class Constants {
     public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
     public static int topFlywheelSpeed = 17000; //Encoder ticks per 100ms
     public static int bottomFlyWheelSpeed = 17000;
-    public static int flywheelSpeedTolearace = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
+    public static int flywheelSpeedTolerance = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
 
     public static int intakeMotorID = 11;
     public static double intakeMotorStandardSpeed = 0.1;

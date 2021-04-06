@@ -21,7 +21,8 @@ public class StowIntake extends CommandBase {
         intake.stow();
     }
 
-    public void end() {
+    @Override
+    public void end(boolean interrupted) {
 
     }
 

@@ -22,7 +22,8 @@ public class DeployIntake extends CommandBase {
         intake.deploy();
     }
 
-    public void end() {}
+    @Override
+    public void end(boolean interrupted) {}
 
     @Override
     public boolean isFinished() {

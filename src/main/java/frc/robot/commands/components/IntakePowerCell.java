@@ -21,7 +21,8 @@ public class IntakePowerCell extends CommandBase{
         intake.intakePowerCells();
     }
 
-    public void end() {}
+    @Override
+    public void end(boolean interrupted) {}
 
     @Override
     public boolean isFinished() {
