@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 /**
  * Credit to team 364 for this class
  * https://github.com/Team364/BaseFalconSwerve/blob/main/src/main/java/frc/lib/util/CTREModuleState.java
+ * https://www.chiefdelphi.com/t/swerve-modules-flip-180-degrees-periodically-conditionally/393059
  */
 public class CTREModuleState {
 

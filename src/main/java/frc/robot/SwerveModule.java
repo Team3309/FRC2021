@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import friarLib2.math.CTREModuleState;
 
 /**
@@ -72,6 +71,11 @@ public class SwerveModule {
         SmartDashboard.putNumber(name + " current degrees", currentDegrees);
     }*/
 
+    /**
+     * Set the state of the swerve module. Credit to team 364 for CTREModuleState
+     * 
+     * @param state the new target state for the module
+     */
     public void setState (SwerveModuleState state) {
         
         state = CTREModuleState.optimize(state, getState().angle);
@@ -82,26 +86,17 @@ public class SwerveModule {
         double angle = (Math.abs(state.speedMetersPerSecond) <= (Constants.absouluteMaxDriveSpeed * 0.01)) ? lastAngle : state.angle.getDegrees(); //Prevent rotating module if speed is les then 1%. Prevents Jittering.
         rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(angle)); 
         lastAngle = angle;
-
-        // SmartDashboard.putNumber(name + " speed target", state.speedMetersPerSecond);
-        // SmartDashboard.putNumber(name + " target degrees", targetDegrees);
-        // SmartDashboard.putNumber(name + " offset", offset);
-        // SmartDashboard.putNumber(name + " offset degrees", offsetDegrees);
-        // SmartDashboard.putNumber(name + " current degrees", currentDegrees);
     }
 
+    /**
+     * Get the physical position of the module
+     * 
+     * @return the module's position
+     */
     public SwerveModuleState getState () {
         return new SwerveModuleState(
                 UnitConversions.driveEncoderTicksPer100msToMPS(driveMotor.getSelectedSensorVelocity()), 
                 Rotation2d.fromDegrees(UnitConversions.driveEncoderTicksToDegrees(rotationMotor.getSelectedSensorPosition()))
         );
-    }
-
-    public static SwerveModuleState optimizeState (SwerveModuleState currentState, SwerveModuleState targetState) {
-        if (targetState.angle.minus(currentState.angle).getDegrees() < 180) {
-            return targetState;
-        } else {
-            return new SwerveModuleState(-targetState.speedMetersPerSecond, targetState.angle.plus(Rotation2d.fromDegrees(180)));
-        }
     }
 }
