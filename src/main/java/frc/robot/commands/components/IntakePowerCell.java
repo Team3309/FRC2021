@@ -26,6 +26,6 @@ public class IntakePowerCell extends CommandBase{
 
     @Override
     public boolean isFinished() {
-        return DriverStation.getInstance().isAutonomousEnabled();
+        return true;
     }
 }
