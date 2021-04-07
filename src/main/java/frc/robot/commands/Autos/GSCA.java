@@ -1,7 +1,7 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Relay.InvalidValueException;
@@ -40,7 +40,7 @@ public class GSCA extends CommandBase {
     @Override
     public void execute() {
 
-      new ParallelCommandGroup(
+      new ParallelRaceGroup(
         new PerpetualCommand(new IntakePowerCell(intake)),
         red ? new FollowTrajectory(drive, "GSCB-red.wpilib.json") 
         : new FollowTrajectory(drive, "GSCB-blue.wpilib.json")
