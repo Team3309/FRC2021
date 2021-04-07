@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Vision;
+import friarLib2.hardware.BoschLinearMotor;
 import friarLib2.math.LinearRegression;
 import friarLib2.utility.PIDParameters;
 
@@ -16,6 +17,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private WPI_TalonFX topFlywheelMotor;
     private WPI_TalonFX bottomFlywheelMotor;
     private WPI_TalonFX feederMotor;
+    private BoschLinearMotor linearMotor;
 
     private LinearRegression regression;
 
@@ -50,7 +52,11 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setAngleDegrees (double angle) {
-        //TODO: set angle
+        // Law of cosines
+        linearMotor.setDistance(
+            Math.sqrt(
+                Math.pow(Constants.shooterTriangleB, 2) + Math.pow(Constants.shooterTriangleC, 2) // b^2 + c^2
+                - (2 * Constants.shooterTriangleB * Constants.shooterTriangleC * Math.cos(Math.toRadians(angle) + Constants.shooterTriangleA)))); // -2bc * cos(theta + a)
     }
 
     public void setAngleRadians (double angle) {

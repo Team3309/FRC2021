@@ -5,10 +5,10 @@ package friarLib2.vision;
  * systems but keep the same API. For example, if we want to switch between PhotonVision and Limelight,
  * we can do so without needing to change too much code
  */
-public interface visionCamera {
+public interface VisionCamera {
     public boolean hasTargets ();
-    public visionTarget[] getTargets ();
-    public visionTarget getBestTarget ();
+    public VisionTarget[] getTargets ();
+    public VisionTarget getBestTarget ();
     public void setPipeline (String pipelineName);
     public void setLights (LedMode mode);
 }

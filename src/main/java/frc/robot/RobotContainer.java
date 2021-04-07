@@ -47,7 +47,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Barrel Run", barrelAuto);
     autoChooser.addOption("GSCA", gsca);
     autoChooser.addOption("GSCB", gscb);
-    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData("Auto", autoChooser);
 
     configureDefaultCommands();
     configureButtonBindings();

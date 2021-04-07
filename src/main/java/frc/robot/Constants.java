@@ -29,15 +29,16 @@ public final class Constants {
     public static final double xboxControllerDeadband = .05;
 
     /********** Drive Control Constants **********/
-    public static final double maxDriveSpeed = 12; // ft/s
-    public static final double maxAngularSpeed = 100; // rpm
+    public static final double maxDriveSpeed = 14; // ft/s
+    public static final double absouluteMaxDriveSpeed = 24; // ft/s
+    public static final double maxAngularSpeed = 200; // rpm
 
     /********** Drive Tuning Constants **********/
-    public static final PIDParameters drivePID = new PIDParameters(.1, 0.001, 0.1);
+    public static final PIDParameters drivePID = new PIDParameters(.1, 0.0007, 0.1);
     public static final PIDParameters driveRotationPID = new PIDParameters(.1, 0.002, 0);
-    public static final PIDController holonomicControllerPID = new PIDController(0, 0, 0);
-    public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
-    public static final PIDController driveAimPID = new PIDController(0, 0, 0); //Controls the rotation of the drivebase when aiming
+    public static final PIDController holonomicControllerPID = new PIDController(.1, 0, 0);
+    public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(.1, 0, 0, new TrapezoidProfile.Constraints(0, 0));
+    public static final PIDController driveAimPID = new PIDController(.1, 0, 0); //Controls the rotation of the drivebase when aiming
 
     /********** Physical Drive Constants **********/
     public static final int leftModuleDriveMotorID = 1;
@@ -52,7 +53,7 @@ public final class Constants {
     //THESE ARE THE DISTANCES OF EACH OF THE SWERVE MODULES FROM THE CENTER OF THE ROBOT
     //Positive x values represent moving toward the front of the robot
     //Positive y values represent moving toward the left of the robot
-    public static final Translation2d leftModuleTranslation = new Translation2d(0, Units.inchesToMeters(9.4041647005));
+    public static final Translation2d leftModuleTranslation = new Translation2d(0.00001, Units.inchesToMeters(9.4041647005));
     public static final Translation2d rightModuleTranslation = new Translation2d(0, Units.inchesToMeters(-9.4041647005));
 
 
@@ -64,18 +65,25 @@ public final class Constants {
     public static final double linMotorThreadsPerIn = 0.0;
     public static final double linMotorTranslation = 0.0;
 
+    /*
+     * See https://photos.google.com/u/1/photo/AF1QipN6BZ05ZhEWi89uwusuFR4eUEyHCo-4Ylrg3jJu for more details 
+     */
+    public static final double shooterTriangleB = 4.825; //in
+    public static final double shooterTriangleC = 4.545; //in
+    public static final double shooterTriangleA = 6.81; //degrees
+
     /********** Shooter Tuning Constants **********/
-    public static PIDParameters topFlywheelPID = new PIDParameters(0, 0, 0);
-    public static PIDParameters bottomFlywheelPID = new PIDParameters(0, 0, 0);
-    public static int topFlywheelSpeed = 17000; //Encoder ticks per 100ms
-    public static int bottomFlyWheelSpeed = 17000;
-    public static int feederMotorStandardSpeed = 1000;
+    public static PIDParameters topFlywheelPID = new PIDParameters(.27, 0.0005, 0.2);
+    public static PIDParameters bottomFlywheelPID = new PIDParameters(.27, 0.0005, 0.2);
+    public static int topFlywheelSpeed = 18000; //Encoder ticks per 100ms
+    public static int bottomFlyWheelSpeed = 19000;
     public static int flywheelSpeedTolerance = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
 
     public static int intakeMotorID = 12;
     public static double intakeMotorStandardSpeed = 1000;
     public static int stowMotorID = 13;
     public static double stowMotorStandardSpeed = 0.01;
+    public static double feederMotorStandardSpeed = 100;
     /**
      * A 2D array for tuning the shooter.
      * 
