@@ -62,6 +62,8 @@ public final class Constants {
     public static final int topShooterMotorID = 9;
     public static final int bottomShooterMotorID = 10;
     public static final int shooterLinearMotorID = 11;
+    public static final int indexerMotorID = 20;
+    public static final int shooterLimitSwitchPort = 7;
 
     /********** Shooter Tuning Constants **********/
     public static PIDParameters topFlywheelPID = new PIDParameters(.27, 0.0005, 0.2);
@@ -86,4 +88,10 @@ public final class Constants {
         {2, 70},
         {3, 60}
     };
+
+
+
+    /********** Intake Constants **********/
+    public static final int intakeMotorID = 20;
+    public static final double intakeMotorPower = 1;
 }

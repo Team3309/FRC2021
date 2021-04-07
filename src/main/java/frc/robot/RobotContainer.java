@@ -13,9 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveAndAim;
 import frc.robot.commands.DriveTeleop;
-import frc.robot.commands.SetModuleStates;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -31,6 +32,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
 
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
@@ -72,11 +74,11 @@ public class RobotContainer {
         .toggleWhenPressed(new DriveAndAim(drive, shooter));
 
     //When right trigget is pressed on Xbox controller, launch a powercell
-    new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kRightTrigger.value)
-        .whenPressed(new InstantCommand(shooter::shoot, shooter));
+    //new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kRightTrigger.value)
+    //    .whenPressed(new InstantCommand(shooter::shoot, shooter));
 
 
-    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value).whileHeld(new SetModuleStates(drive));
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value).whileHeld(new Shoot(shooter));
 
   }
 
@@ -86,11 +88,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    // TODO: add a widget to smartDashboard/shuffleboard to choose which auto to run
-
-
     return autoChooser.getSelected();
-
   }
 }
