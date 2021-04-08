@@ -41,7 +41,7 @@ public class FollowTrajectory extends CommandBase {
             Constants.holonomicControllerPID, 
             Constants.holonomicControllerPIDTheta
         );
-        holonomicController.setTolerance(new Pose2d(new Translation2d(.2, .2), Rotation2d.fromDegrees(360)));
+        holonomicController.setTolerance(new Pose2d(new Translation2d(.09, .09), Rotation2d.fromDegrees(10000000)));
 
         trajectory = openTrajectoryFromJSON(trajectoryJSON); //Load the pathweaver trajectory
     }
@@ -49,7 +49,7 @@ public class FollowTrajectory extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        drive.resetOdometry(trajectory.getInitialPose());
+        drive.resetOdometry(trajectory.getInitialPose(), trajectory.getInitialPose().getRotation());
         timer.reset();
         timer.start();
     }
@@ -79,7 +79,7 @@ public class FollowTrajectory extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return /*holonomicController.atReference() &&*/ timer.get() >= trajectory.getTotalTimeSeconds();
+        return holonomicController.atReference() && timer.get() >= trajectory.getTotalTimeSeconds();
     }
 
     /**

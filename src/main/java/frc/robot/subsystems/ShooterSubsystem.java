@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.OperatorInterface;
 import frc.robot.UnitConversions;
 import frc.robot.Vision;
 import friarLib2.math.LinearRegression;
@@ -20,7 +21,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private WPI_TalonFX topFlywheelMotor;
     private WPI_TalonFX bottomFlywheelMotor;
-    private WPI_TalonSRX linearMotor;
+    public WPI_TalonSRX linearMotor;
     private WPI_TalonSRX indexerMotor;
 
     private DigitalInput limitSwitch = new DigitalInput(Constants.shooterLimitSwitchPort);
@@ -86,9 +87,17 @@ public class ShooterSubsystem extends SubsystemBase {
         indexerMotor.stopMotor();
     }
 
+    public boolean getLimitSwitch() {
+        return limitSwitch.get();
+    }
+
     @Override
     public void periodic() {
       SmartDashboard.putNumber("Linear Motor Encoder", linearMotor.getSelectedSensorPosition());
       SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
+      SmartDashboard.putNumber("Top flywheel speed", topFlywheelMotor.getSelectedSensorVelocity());
+      SmartDashboard.putNumber("Bottom flywheel speed", bottomFlywheelMotor.getSelectedSensorVelocity());
+      SmartDashboard.putNumber("Top flywheel output", topFlywheelMotor.getMotorOutputPercent());
+      SmartDashboard.putNumber("Bottom flywheel output", bottomFlywheelMotor.getMotorOutputPercent());
     }
 }

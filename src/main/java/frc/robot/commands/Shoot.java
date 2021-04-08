@@ -10,14 +10,14 @@ public class Shoot extends CommandBase {
   public Shoot (ShooterSubsystem shooter) {
     this.shooter = shooter;
 
-    addRequirements(shooter);
+    //addRequirements(shooter);
   }
 
   @Override
   public void execute() {
-    //if (shooter.isUpToSpeed()) {
-      shooter.setIndexerMotorPower(Constants.intakeMotorPower);
-    //}
+    if (shooter.isUpToSpeed()) {
+      shooter.setIndexerMotorPower(Constants.indexerMotorPower);
+    }
   }
 
   @Override

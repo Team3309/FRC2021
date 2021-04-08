@@ -71,8 +71,8 @@ public class DriveSubsystem extends SubsystemBase {
         return Rotation2d.fromDegrees(angle);
     }
 
-    public void resetOdometry (Pose2d pose) {
-        swerveOdometry.resetPosition(pose, getRobotRotation());
+    public void resetOdometry (Pose2d pose, Rotation2d rotation) {
+        swerveOdometry.resetPosition(pose, rotation);
     }
 
     @Override

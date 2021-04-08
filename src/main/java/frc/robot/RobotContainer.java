@@ -14,12 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveAndAim;
 import frc.robot.commands.DriveTeleop;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.ShooterAngleTest;
+import frc.robot.commands.ZeroShooterAngle;
 import frc.robot.commands.Autos.*;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -38,8 +40,14 @@ public class RobotContainer {
   private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
   private final FollowTrajectory slalomAuto = new FollowTrajectory(drive, "slalomLeg.wpilib.json");
   private final FollowTrajectory barrelAuto = new FollowTrajectory(drive, "barrelRun.wpilib.json");
-  private final GSCA gsca = new GSCA(drive);
-  private final GSCB gscb = new GSCB(drive);
+  private final ConditionalCommand gsca = new ConditionalCommand(
+    new FollowTrajectory(drive, "GSCA-red.wpilib.json"), 
+    new FollowTrajectory(drive, "GSCA-blue.wpilib.json"), 
+    new GSCA());
+  private final ConditionalCommand gscb = new ConditionalCommand(
+    new FollowTrajectory(drive, "GSCB-red.wpilib.json"), 
+    new FollowTrajectory(drive, "GSCB-blue.wpilib.json"), 
+    new GSCB());
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -59,6 +67,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands () {
      drive.setDefaultCommand(new DriveTeleop(drive));
+     shooter.setDefaultCommand(new ShooterAngleTest(shooter));
   }
 
   /**
@@ -79,7 +88,7 @@ public class RobotContainer {
 
 
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value).whileHeld(new Shoot(shooter));
-
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kB.value).whileHeld(new ZeroShooterAngle(shooter));
   }
 
   /**
