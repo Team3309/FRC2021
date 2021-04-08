@@ -20,6 +20,10 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.set(ControlMode.PercentOutput, power);
     }
 
+    public void startMotor () {
+        setPower(Constants.intakeMotorPower);
+    }
+
     public void stopMotor () {
         intakeMotor.stopMotor();
     }

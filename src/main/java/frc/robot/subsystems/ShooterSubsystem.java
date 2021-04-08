@@ -99,5 +99,6 @@ public class ShooterSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Bottom flywheel speed", bottomFlywheelMotor.getSelectedSensorVelocity());
       SmartDashboard.putNumber("Top flywheel output", topFlywheelMotor.getMotorOutputPercent());
       SmartDashboard.putNumber("Bottom flywheel output", bottomFlywheelMotor.getMotorOutputPercent());
+      SmartDashboard.putBoolean("Up to speed", isUpToSpeed());
     }
 }

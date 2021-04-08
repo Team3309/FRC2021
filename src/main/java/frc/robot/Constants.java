@@ -72,7 +72,7 @@ public final class Constants {
     public static PIDParameters shooterLinearMotorPID = new PIDParameters(1, 0, 0); // Basically bang-bang control
     public static int topFlywheelSpeed = 19000; //Encoder ticks per 100ms
     public static int bottomFlyWheelSpeed = 21000;
-    public static int flywheelSpeedTolearace = 100; //Will only shoot powercells if flywheel speed is within this rage of the target speed
+    public static int flywheelSpeedTolearace = 1000; //Will only shoot powercells if flywheel speed is within this rage of the target speed
     public static final double indexerMotorPower = 1;
 
     /**
@@ -95,5 +95,5 @@ public final class Constants {
 
     /********** Intake Constants **********/
     public static final int intakeMotorID = 20;
-    public static final double intakeMotorPower = 1;
+    public static final double intakeMotorPower = .5;
 }

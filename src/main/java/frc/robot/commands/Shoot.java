@@ -15,9 +15,9 @@ public class Shoot extends CommandBase {
 
   @Override
   public void execute() {
-    if (shooter.isUpToSpeed()) {
+    //if (shooter.isUpToSpeed()) {
       shooter.setIndexerMotorPower(Constants.indexerMotorPower);
-    }
+    //}
   }
 
   @Override

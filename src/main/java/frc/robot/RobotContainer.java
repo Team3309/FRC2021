@@ -22,6 +22,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -40,14 +41,8 @@ public class RobotContainer {
   private final BouncePathAuto bounceAuto = new BouncePathAuto(drive);
   private final FollowTrajectory slalomAuto = new FollowTrajectory(drive, "slalomLeg.wpilib.json");
   private final FollowTrajectory barrelAuto = new FollowTrajectory(drive, "barrelRun.wpilib.json");
-  private final ConditionalCommand gsca = new ConditionalCommand(
-    new FollowTrajectory(drive, "GSCA-red.wpilib.json"), 
-    new FollowTrajectory(drive, "GSCA-blue.wpilib.json"), 
-    new GSCA());
-  private final ConditionalCommand gscb = new ConditionalCommand(
-    new FollowTrajectory(drive, "GSCB-red.wpilib.json"), 
-    new FollowTrajectory(drive, "GSCB-blue.wpilib.json"), 
-    new GSCB());
+  private final GSCACommandGroup gsca = new GSCACommandGroup(drive, intake);
+  private final GSCBCommandGroup gscb = new GSCBCommandGroup(drive, intake);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -85,10 +80,16 @@ public class RobotContainer {
     //When right trigget is pressed on Xbox controller, launch a powercell
     //new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kRightTrigger.value)
     //    .whenPressed(new InstantCommand(shooter::shoot, shooter));
+ 
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value)
+        .whileHeld(new Shoot(shooter));
 
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kB.value)
+        .whenPressed(new ZeroShooterAngle(shooter));
 
-    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value).whileHeld(new Shoot(shooter));
-    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kB.value).whileHeld(new ZeroShooterAngle(shooter));
+    new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kX.value)
+        .whileHeld(new InstantCommand(intake::startMotor, intake))
+        .whenReleased(new InstantCommand(intake::stopMotor, intake));
   }
 
   /**

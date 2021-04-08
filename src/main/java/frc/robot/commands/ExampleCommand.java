@@ -28,7 +28,7 @@ public class ExampleCommand extends CommandBase {
     addRequirements(subsystem);
   }
 
-  // Called when the command is initially scheduled.
+  // Called when the command is initially scheduled. 
   @Override
   public void initialize() {
   }
