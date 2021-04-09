@@ -6,6 +6,9 @@ import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.ShooterSubsystem;
 
+/**
+ * Used for manually moving the angle of the shooter; will probably be removed in the near future
+ */
 public class ShooterAngleTest extends CommandBase {
     private final ShooterSubsystem shooter;
 

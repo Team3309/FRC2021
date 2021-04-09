@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.OperatorInterface;
 import frc.robot.UnitConversions;
 import frc.robot.Vision;
 import friarLib2.math.LinearRegression;
@@ -21,7 +20,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private WPI_TalonFX topFlywheelMotor;
     private WPI_TalonFX bottomFlywheelMotor;
-    public WPI_TalonSRX linearMotor;
+    public WPI_TalonSRX linearMotor; //TODO: This should not be public
     private WPI_TalonSRX indexerMotor;
 
     private DigitalInput limitSwitch = new DigitalInput(Constants.shooterLimitSwitchPort);

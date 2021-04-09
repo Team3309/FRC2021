@@ -5,6 +5,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
+/**
+ * Lowers the shooter until it reaches the limit switch, then zeros the encoder
+ */
 public class ZeroShooterAngle extends CommandBase {
     private final ShooterSubsystem shooter;
 

@@ -3,12 +3,11 @@ package frc.robot.commands.Autos;
 import java.util.function.BooleanSupplier;
 
 import frc.robot.Vision;
-import frc.robot.subsystems.DriveSubsystem;
 
 /**
- * Decides to run either blue or red paths for Galactic Search A
+ * Decides to run either blue or red paths for Galactic Search B
  */
-public class GSCA implements BooleanSupplier {
+public class GSCBCondition implements BooleanSupplier {
   /**
    * Returns true if red path and false if blue
    * @return

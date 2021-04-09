@@ -21,7 +21,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -49,9 +48,10 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    autoChooser.addOption("Bounce Path", bounceAuto);
+    // Add autos to SmartDashboard
+    autoChooser.setDefaultOption("Bounce Path", bounceAuto);
     autoChooser.addOption("Slalom Path", slalomAuto);
-    autoChooser.setDefaultOption("Barrel Run", barrelAuto);
+    autoChooser.addOption("Barrel Run", barrelAuto);
     autoChooser.addOption("GSCA", gsca);
     autoChooser.addOption("GSCB", gscb);
     SmartDashboard.putData("Auto", autoChooser);
@@ -73,20 +73,19 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    //When right bumper is pressed on Xbox controller, toggle DriveAndAim
+    // When right bumper is pressed on Xbox controller, toggle DriveAndAim
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kBumperRight.value)
         .toggleWhenPressed(new DriveAndAim(drive, shooter));
-
-    //When right trigget is pressed on Xbox controller, launch a powercell
-    //new JoystickButton(OperatorInterface.OperatorController, XboxController.Axis.kRightTrigger.value)
-    //    .whenPressed(new InstantCommand(shooter::shoot, shooter));
  
+    // While A is pressed on Xbox controller, shoot powercells
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kA.value)
         .whileHeld(new Shoot(shooter));
 
+    // When B is pressesd on Xbox controller, zero the shooter encoder
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kB.value)
         .whenPressed(new ZeroShooterAngle(shooter));
 
+    // While X is pressed on Xbox conroller, run the intake
     new JoystickButton(OperatorInterface.OperatorController, XboxController.Button.kX.value)
         .whileHeld(new InstantCommand(intake::startMotor, intake))
         .whenReleased(new InstantCommand(intake::stopMotor, intake));
