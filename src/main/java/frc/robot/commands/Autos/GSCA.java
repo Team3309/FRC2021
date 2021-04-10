@@ -1,13 +1,13 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Relay.InvalidValueException;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.components.IntakePowerCell;
 
 public class GSCA extends CommandBase {
     private DriveSubsystem drive;
@@ -41,7 +41,7 @@ public class GSCA extends CommandBase {
     public void execute() {
 
       new ParallelRaceGroup(
-        new PerpetualCommand(new IntakePowerCell(intake)),
+        new InstantCommand(intake::intakePowerCells, intake),
         red ? new FollowTrajectory(drive, "GSCB-red.wpilib.json") 
         : new FollowTrajectory(drive, "GSCB-blue.wpilib.json")
       );
