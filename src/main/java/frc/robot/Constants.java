@@ -91,6 +91,8 @@ public final class Constants {
         {3, 60}
     };
 
+	public static double flywheelSpeedTolerance;
+
 
 
     /********** Intake Constants **********/

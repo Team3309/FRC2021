@@ -71,7 +71,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean isUpToSpeed () {
-        return (topFlywheelMotor.getClosedLoopError() <= Constants.flywheelSpeedTolearace) && (bottomFlywheelMotor.getClosedLoopError() <= Constants.flywheelSpeedTolearace);
+        return (topFlywheelMotor.getClosedLoopError() <= Constants.flywheelSpeedTolerance) && (bottomFlywheelMotor.getClosedLoopError() <= Constants.flywheelSpeedTolerance);
     }
 
     public void aim () {
@@ -99,5 +99,5 @@ public class ShooterSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("Top flywheel output", topFlywheelMotor.getMotorOutputPercent());
       SmartDashboard.putNumber("Bottom flywheel output", bottomFlywheelMotor.getMotorOutputPercent());
       SmartDashboard.putBoolean("Up to speed", isUpToSpeed());
-    }
+    } 
 }

@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.analog.adis16470.frc.ADIS16470_IMU;
 
+import com.analog.adis16470.frc.ADIS16470_IMU;
+
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
