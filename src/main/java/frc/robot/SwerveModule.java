@@ -41,39 +41,6 @@ public class SwerveModule {
         rotationMotor.config_IntegralZone(0, 500);
     }
 
-    /*public void setState (SwerveModuleState state) {
-        
-        double currentDegrees = getState().angle.getDegrees() % 360;
-        if (currentDegrees > 180) {
-            currentDegrees -= 360;
-        }
-
-        //state = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(currentDegrees));
-
-        // coming in from the joystick (and kinematics)
-        double targetDegrees = state.angle.getDegrees();
-
-        if(Math.abs(currentDegrees) + Math.abs(targetDegrees) > 180
-        && Math.signum(currentDegrees) != Math.signum(targetDegrees)) {
-            if (currentDegrees < 0) {
-                offset--;
-            } else {
-                offset++;
-            }
-        }
-
-        double offsetDegrees = targetDegrees + (offset * 360);
-
-        driveMotor.set(ControlMode.Velocity, UnitConversions.driveMPSToEncoderTicksPer100ms(state.speedMetersPerSecond));
-        rotationMotor.set(ControlMode.Position, UnitConversions.driveDegreesToEncoderTicks(offsetDegrees));
-
-        SmartDashboard.putNumber(name + " speed target", state.speedMetersPerSecond);
-        SmartDashboard.putNumber(name + " target degrees", targetDegrees);
-        SmartDashboard.putNumber(name + " offset", offset);
-        SmartDashboard.putNumber(name + " offset degrees", offsetDegrees);
-        SmartDashboard.putNumber(name + " current degrees", currentDegrees);
-    }*/
-
     /**
      * Set the state of the swerve module. Credit to team 364 for CTREModuleState
      * 

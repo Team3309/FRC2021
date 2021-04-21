@@ -1,60 +1,35 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class IntakeSubsystem extends SubsystemBase{
-    
-    private WPI_TalonFX intakeMotor;
-    private WPI_TalonFX stowMotor;
+public class IntakeSubsystem extends SubsystemBase {
+
+    private WPI_VictorSPX intakeMotor;
 
     public IntakeSubsystem() {
-        intakeMotor = new WPI_TalonFX(Constants.intakeMotorID);
+        intakeMotor = new WPI_VictorSPX(Constants.intakeMotorID);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
-        stowMotor = new WPI_TalonFX(Constants.stowMotorID);
-        stowMotor.setNeutralMode(NeutralMode.Brake);
     }
 
-
-    /**
-     * Temporary method for deploying intake from stow position.
-     */
-
-    public void deploy() {
-        stowMotor.set(ControlMode.Velocity, Constants.stowMotorStandardSpeed);
+    public void setPower (double power) {
+        intakeMotor.set(ControlMode.PercentOutput, power);
     }
 
-    /**
-     * Temporary method for stowing intake from deployed position
-     */
-
-    public void stow() {
-        stowMotor.set(ControlMode.Velocity, -Constants.stowMotorStandardSpeed);
+    public void startMotor () {
+        setPower(Constants.intakeMotorPower);
     }
 
-    /**
-     * Intakes power cells for robot use. 
-     */
-    public void intakePowerCells() {
-        intakeMotor.set(ControlMode.Velocity, Constants.intakeMotorStandardSpeed);
+    public void stopMotor () {
+        intakeMotor.stopMotor();
     }
-
-    /**
-     * Outtakes, but doesn't shoot, power cells.
-     */
-    public void outtakePowerCells() {
-        intakeMotor.set(ControlMode.Velocity, - Constants.intakeMotorStandardSpeed);
-    }
-
-    /**
-     * Stops intake entirely.
-     */
-    public void stop() {
-        intakeMotor.set(ControlMode.Velocity, 0);
+  
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
     }
 }

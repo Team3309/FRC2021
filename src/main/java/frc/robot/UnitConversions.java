@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.util.Units;
 
 public class UnitConversions {
 
-    
     public static double driveMPSToEncoderTicksPer100ms (double mps) {
         double wheelDiameterMeters = Units.inchesToMeters(Constants.wheelDiameterInches);
         return mps * (1.0/(wheelDiameterMeters * Math.PI)) * Constants.swerveModuleDriveGearRatio * (2048.0/1.0) * (1.0/10.0);
@@ -23,11 +22,7 @@ public class UnitConversions {
         return encoderTicks / driveDegreesToEncoderTicks(1);
     }
 
-    public static double zeroTo360ToPlusMinus180 (double degrees) {
-        if (degrees > 180) {
-            return degrees - 360;
-        } else {
-            return degrees;
-        }
+    public static double shooterDegreesToEncoderTicks (double degrees) {
+        return 0.0; //TODO: convert units
     }
 }

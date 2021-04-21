@@ -48,7 +48,7 @@ public class DriveSubsystem extends SubsystemBase {
         );
     }
 
-    /***
+    /**
      * Sets the states of each swerve module, i.e: translates swerve module states into robot motion.
      * 
      * @param states The array of states to which the modules should be set.
@@ -58,28 +58,50 @@ public class DriveSubsystem extends SubsystemBase {
         rightModule.setState(states[1]);
     }
 
+    /**
+     * Calculate and set the requred SwerveModuleStates for a given ChassisSpeeds
+     * 
+     * @param speeds
+     */
     public void setChassisSpeeds (ChassisSpeeds speeds) {
         SwerveModuleState[] moduleStates = swerveKinematics.toSwerveModuleStates(speeds); //Generate the swerve module states
         SwerveDriveKinematics.normalizeWheelSpeeds(moduleStates, Units.feetToMeters(Constants.absouluteMaxDriveSpeed));
         setModuleStates(moduleStates);
     }
 
+    /**
+     * Get the current robot pose according to dead-reckoning odometry
+     * See https://docs.wpilib.org/en/stable/docs/software/kinematics-and-odometry/swerve-drive-odometry.html for more details
+     * 
+     * @return Current robot pose
+     */
     public Pose2d getRobotPose () {
         return currentRobotPose;
     }
 
+    /**
+     * Use the IMU to read the robot's yaw
+     * 
+     * @return Rotation2d representing IMU's measured angle
+     */
     public Rotation2d getRobotRotation () {
-        double angle  = imu.getAngle();
+        double angle = imu.getAngle();
         return Rotation2d.fromDegrees(angle);
     }
 
-    public void resetOdometry (Pose2d pose) {
-        swerveOdometry.resetPosition(pose, getRobotRotation());
+    /**
+     * Set the odometry readings
+     * 
+     * @param pose Pose to be written to odometry
+     * @param rotation Roatation to be written to odometry
+     */
+    public void resetOdometry (Pose2d pose, Rotation2d rotation) {
+        swerveOdometry.resetPosition(pose, rotation);
     }
 
     @Override
     public void periodic() {
-        //Update the odometry
+        //Update the odometry using module states and chassis rotation
         currentRobotPose = swerveOdometry.update(
             getRobotRotation(),
             leftModule.getState(),

@@ -36,7 +36,7 @@ public class DriveTeleop extends CommandBase {
     double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(-rightstickX * Constants.maxAngularSpeed);
 
     //ChassisSpeeds speeds = new ChassisSpeeds(ySpeed, xSpeed, angularSpeed);
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, angularSpeed, drive.getRobotRotation());
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, angularSpeed, drive.getRobotRotation()); // Create ChassisSpeeds based on robot heading
 
     drive.setChassisSpeeds(speeds);
 

@@ -1,14 +1,18 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.UnitConversions;
 import frc.robot.Vision;
-import friarLib2.hardware.BoschLinearMotor;
 import friarLib2.math.LinearRegression;
 import friarLib2.utility.PIDParameters;
 
@@ -16,23 +20,30 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private WPI_TalonFX topFlywheelMotor;
     private WPI_TalonFX bottomFlywheelMotor;
-    private WPI_TalonFX feederMotor;
-    private BoschLinearMotor linearMotor;
+    public WPI_TalonSRX linearMotor; //TODO: This should not be public
+    private WPI_TalonSRX indexerMotor;
+
+    private DigitalInput limitSwitch = new DigitalInput(Constants.shooterLimitSwitchPort);
 
     private LinearRegression regression;
 
     public ShooterSubsystem () {
         topFlywheelMotor = new WPI_TalonFX(Constants.topShooterMotorID);
         bottomFlywheelMotor = new WPI_TalonFX(Constants.bottomShooterMotorID);
-        feederMotor = new WPI_TalonFX(Constants.feederMotorID);
         configMotor(topFlywheelMotor, Constants.topFlywheelPID);
         configMotor(bottomFlywheelMotor, Constants.bottomFlywheelPID);
 
+        linearMotor = new WPI_TalonSRX(Constants.shooterLinearMotorID);
+        configMotor(linearMotor, Constants.shooterLinearMotorPID);
+
+        indexerMotor = new WPI_TalonSRX(Constants.indexerMotorID);
+        indexerMotor.setNeutralMode(NeutralMode.Brake);
+        
         //Compute a linear regression of distances and shooter angles so that we can aim anywhere
         regression = new LinearRegression(Constants.aimRegressionData);
     }
 
-    private static void configMotor (WPI_TalonFX motor, PIDParameters PID) {
+    private static void configMotor (BaseTalon motor, PIDParameters PID) {
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Coast);
 
@@ -52,11 +63,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setAngleDegrees (double angle) {
-        // Law of cosines
-        linearMotor.setDistance(
-            Math.sqrt(
-                Math.pow(Constants.shooterTriangleB, 2) + Math.pow(Constants.shooterTriangleC, 2) // b^2 + c^2
-                - (2 * Constants.shooterTriangleB * Constants.shooterTriangleC * Math.cos(Math.toRadians(angle) + Constants.shooterTriangleA)))); // -2bc * cos(theta + a)
+        linearMotor.set(ControlMode.Position, UnitConversions.shooterDegreesToEncoderTicks(angle));
     }
 
     public void setAngleRadians (double angle) {
@@ -71,14 +78,26 @@ public class ShooterSubsystem extends SubsystemBase {
         setAngleDegrees(regression.evaluate(Vision.getDistanceFromTarget()));
     }
 
-    public void feed() {
-        feederMotor.set(ControlMode.Velocity, Constants.feederMotorStandardSpeed);
-    }
-    public void shoot () {
-        if (isUpToSpeed() && topFlywheelMotor.getClosedLoopTarget() + bottomFlywheelMotor.getClosedLoopTarget() != 0) {
-            feed();
-        }
+    public void setIndexerMotorPower (double power) {
+        indexerMotor.set(ControlMode.PercentOutput, power);
     }
 
-    
+    public void stopIndexerMotor () {
+        indexerMotor.stopMotor();
+    }
+
+    public boolean getLimitSwitch() {
+        return limitSwitch.get();
+    }
+
+    @Override
+    public void periodic() {
+      SmartDashboard.putNumber("Linear Motor Encoder", linearMotor.getSelectedSensorPosition());
+      SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
+      SmartDashboard.putNumber("Top flywheel speed", topFlywheelMotor.getSelectedSensorVelocity());
+      SmartDashboard.putNumber("Bottom flywheel speed", bottomFlywheelMotor.getSelectedSensorVelocity());
+      SmartDashboard.putNumber("Top flywheel output", topFlywheelMotor.getMotorOutputPercent());
+      SmartDashboard.putNumber("Bottom flywheel output", bottomFlywheelMotor.getMotorOutputPercent());
+      SmartDashboard.putBoolean("Up to speed", isUpToSpeed());
+    } 
 }
