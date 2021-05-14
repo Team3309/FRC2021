@@ -31,9 +31,15 @@ public class DriveTeleop extends CommandBase {
     double rightstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
     double rightstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
 
-    double ySpeed = (-leftstickY * Constants.maxDriveSpeed) / 3.281;  // positive getY() is down
-    double xSpeed = (-leftstickX * Constants.maxDriveSpeed) / 3.281;  // positive getX() is to the right
-    double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(-rightstickX * Constants.maxAngularSpeed);
+    double ySpeed = Units.feetToMeters(Constants.maxDriveSpeed * leftstickY * leftstickY);  // positive getY() is down
+    ySpeed = (-leftstickY < 0) ? ySpeed * -1 : ySpeed; // Make the output value negative if the joystick value is negative
+
+    double xSpeed = Units.feetToMeters(Constants.maxDriveSpeed * leftstickX * leftstickX);  // positive getX() is to the right
+    xSpeed = (-leftstickX < 0) ? xSpeed * -1 : xSpeed;
+
+    double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(Constants.maxAngularSpeed * rightstickX * rightstickX);
+    angularSpeed = (-rightstickX < 0) ? angularSpeed * -1 : angularSpeed;
+
 
     //ChassisSpeeds speeds = new ChassisSpeeds(ySpeed, xSpeed, angularSpeed);
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, angularSpeed, drive.getRobotRotation()); // Create ChassisSpeeds based on robot heading
