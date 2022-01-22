@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
+import friarLib2.math.AngleHelper;
 import friarLib2.math.CTREModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -43,10 +44,17 @@ public class DriveTeleop extends CommandBase {
 
         // Point in the direction the joystick is pointing
         if (OperatorInterface.OperatorController.getBumper(GenericHID.Hand.kRight)) {
-            double targetAngle = Math.toDegrees(Math.atan2(-leftstickY, leftstickX));
-            targetAngle = CTREModuleState.placeInAppropriate0To360Scope(drive.getRobotRotation().getDegrees(), targetAngle);
+            double targetAngle = Math.toDegrees(Math.atan2(-leftstickY, leftstickX)) + 90;
+            targetAngle = AngleHelper.placeInAppropriate0To360Scope(drive.getRobotRotation().getDegrees(), targetAngle);
             SmartDashboard.putNumber("Target heading", targetAngle);
-            angularSpeed = Math.toRadians(Constants.robotRotationPID.calculate(drive.getRobotRotation().getDegrees(), targetAngle));
+
+            if (leftstickX == 0 && leftstickY == 0) {
+                System.out.println("NO!");
+                angularSpeed = 0;
+            } else {
+                System.out.println("Yes");
+                angularSpeed = Math.toRadians(Constants.robotRotationPID.calculate(drive.getRobotRotation().getDegrees(), targetAngle));
+            }
             SmartDashboard.putNumber("Rotational speed", angularSpeed);
         } else {
             //Constants.robotRotationPID.reset(drive.getRobotRotation().getRadians());
