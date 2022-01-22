@@ -39,6 +39,7 @@ public final class Constants {
     public static final PIDController holonomicControllerPID = new PIDController(9, 3, 0);
     public static final ProfiledPIDController holonomicControllerPIDTheta = new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(0, 0));
     public static final PIDController driveAimPID = new PIDController(.1, 0, 0); //Controls the rotation of the drivebase when aiming
+    public static final PIDController robotRotationPID = new PIDController(1, 0, 0);
 
     /********** Physical Drive Constants **********/
     public static final int leftModuleDriveMotorID = 1;
