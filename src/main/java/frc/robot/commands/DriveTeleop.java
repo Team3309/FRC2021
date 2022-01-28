@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.SlewRateLimiter;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OperatorInterface;
@@ -48,8 +50,11 @@ public class DriveTeleop extends CommandBase {
     @Override
     public void execute() {
         Vector3309 translationalSpeeds = Vector3309.fromCartesianCoords(
-            OperatorInterface.DriverLeft.getX(), 
-            -OperatorInterface.DriverLeft.getY()).capMagnitude(1).scale(Constants.Drive.MAX_TELEOP_SPEED);
+            -OperatorInterface.OperatorController.getX(Hand.kLeft), 
+            -OperatorInterface.OperatorController.getY(Hand.kLeft)).capMagnitude(1).scale(Constants.Drive.MAX_TELEOP_SPEED);
+
+        SmartDashboard.putNumber("X Component", translationalSpeeds.getXComponent());
+        SmartDashboard.putNumber("Y Component", translationalSpeeds.getYComponent());
 
         // Limit the drivebase's acceleration to reduce wear on the swerve modules
         translationalSpeeds.setXComponent(xAccelLimiter.calculate(translationalSpeeds.getXComponent()));
@@ -72,7 +77,7 @@ public class DriveTeleop extends CommandBase {
      * @return The rotational speed in radians/second
      */
     protected double calculateRotationalSpeed (Vector3309 translationalSpeeds) {
-        double rotationalSpeed = Constants.Drive.MAX_TELEOP_ROTATIONAL_SPEED * OperatorInterface.DriverRight.getX();
+        double rotationalSpeed = Constants.Drive.MAX_TELEOP_ROTATIONAL_SPEED * OperatorInterface.OperatorController.getX(Hand.kRight);
 
         return rotationalSpeed;
     }
