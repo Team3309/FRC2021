@@ -1,70 +1,84 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
-import friarLib2.math.AngleHelper;
-import friarLib2.math.CTREModuleState;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import friarLib2.utility.Vector3309;
 
+/**
+ * Use the left joystick position to control the robot's direction of 
+ * travel relative to the field. Robot heading change is determined 
+ * by moving the right joystick left and right.
+ * 
+ * <p>
+ * i.e., the robot will move in whatever direction the stick is pushed,
+ * regardless of its orientation on te field.
+ * 
+ * <p>
+ * This class is designed to be subclassed so that other commands can 
+ * use the same translational velcoity calculations for field-relative 
+ * teleop control while being able to set the rotational speed 
+ * independently (based on vision data for example).
+ */
 public class DriveTeleop extends CommandBase {
-    private final DriveSubsystem drive;
-    private Joystick leftStick = OperatorInterface.DriverLeft;
-    private Joystick rightStick = OperatorInterface.DriverRight;
-    private XboxController xbox = OperatorInterface.OperatorController;
 
-    public DriveTeleop (DriveSubsystem drive) {
+    protected DriveSubsystem drive;
+
+    private SlewRateLimiter xAccelLimiter;
+    private SlewRateLimiter yAccelLimiter;
+
+    public DriveTeleop(DriveSubsystem drive) {
         this.drive = drive;
+
+        xAccelLimiter = new SlewRateLimiter(Constants.Drive.MAX_TELEOP_ACCELERATION);
+        yAccelLimiter = new SlewRateLimiter(Constants.Drive.MAX_TELEOP_ACCELERATION);
 
         addRequirements(drive);
     }
 
     @Override
+    public void initialize() {
+        xAccelLimiter.reset(0);
+        yAccelLimiter.reset(0);
+    }
+
+    @Override
     public void execute() {
-        //Get joystick values, but with deadband
-        double leftstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kLeft), Constants.xboxControllerDeadband);
-        double leftstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kLeft), Constants.xboxControllerDeadband);
-        double rightstickX = OperatorInterface.applyDeadband(xbox.getX(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
-        double rightstickY = OperatorInterface.applyDeadband(xbox.getY(GenericHID.Hand.kRight), Constants.xboxControllerDeadband);
+        Vector3309 translationalSpeeds = Vector3309.fromCartesianCoords(
+            OperatorInterface.DriverLeft.getX(), 
+            -OperatorInterface.DriverLeft.getY()).capMagnitude(1).scale(Constants.Drive.MAX_TELEOP_SPEED);
 
-        double ySpeed = Units.feetToMeters(Constants.maxDriveSpeed * leftstickY * leftstickY);  // positive getY() is down
-        ySpeed = (-leftstickY < 0) ? ySpeed * -1 : ySpeed; // Make the output value negative if the joystick value is negative
+        // Limit the drivebase's acceleration to reduce wear on the swerve modules
+        translationalSpeeds.setXComponent(xAccelLimiter.calculate(translationalSpeeds.getXComponent()));
+        translationalSpeeds.setYComponent(yAccelLimiter.calculate(translationalSpeeds.getYComponent()));
 
-        double xSpeed = Units.feetToMeters(Constants.maxDriveSpeed * leftstickX * leftstickX);  // positive getX() is to the right
-        xSpeed = (-leftstickX < 0) ? xSpeed * -1 : xSpeed;
-
-        double angularSpeed = Units.rotationsPerMinuteToRadiansPerSecond(Constants.maxAngularSpeed * rightstickX * rightstickX);
-        angularSpeed = (-rightstickX < 0) ? angularSpeed * -1 : angularSpeed;
-
-        // Point in the direction the joystick is pointing
-        if (OperatorInterface.OperatorController.getBumper(GenericHID.Hand.kRight)) {
-            double targetAngle = Math.toDegrees(Math.atan2(-leftstickY, leftstickX)) + 90;
-            targetAngle = AngleHelper.placeInAppropriate0To360Scope(drive.getRobotRotation().getDegrees(), targetAngle);
-            SmartDashboard.putNumber("Target heading", targetAngle);
-
-            if (leftstickX == 0 && leftstickY == 0) {
-                System.out.println("NO!");
-                angularSpeed = 0;
-            } else {
-                System.out.println("Yes");
-                angularSpeed = Math.toRadians(Constants.robotRotationPID.calculate(drive.getRobotRotation().getDegrees(), targetAngle));
-            }
-            SmartDashboard.putNumber("Rotational speed", angularSpeed);
-        } else {
-            //Constants.robotRotationPID.reset(drive.getRobotRotation().getRadians());
-        }
-
-        //ChassisSpeeds speeds = new ChassisSpeeds(ySpeed, xSpeed, angularSpeed);
-        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, angularSpeed, drive.getRobotRotation()); // Create ChassisSpeeds based on robot heading
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            translationalSpeeds.getXComponent(), 
+            translationalSpeeds.getYComponent(), 
+            calculateRotationalSpeed(translationalSpeeds), 
+            drive.getRobotRotation());
 
         drive.setChassisSpeeds(speeds);
+    }
 
-        SmartDashboard.putString("speeds", speeds.toString());
+    /**
+     * Given the field-relative translational speeds requested by the
+     * operators, calculate the rotational speed of the robot.
+     * 
+     * @param translationalSpeeds
+     * @return The rotational speed in radians/second
+     */
+    protected double calculateRotationalSpeed (Vector3309 translationalSpeeds) {
+        double rotationalSpeed = Constants.Drive.MAX_TELEOP_ROTATIONAL_SPEED * OperatorInterface.DriverRight.getX();
+
+        return rotationalSpeed;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }

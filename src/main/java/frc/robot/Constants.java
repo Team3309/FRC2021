@@ -99,4 +99,10 @@ public final class Constants {
     /********** Intake Constants **********/
     public static final int intakeMotorID = 20;
     public static final double intakeMotorPower = .5;
+
+    public static class Drive {
+        public static final double MAX_TELEOP_SPEED = 6; // Meters/second
+        public static final double MAX_TELEOP_ACCELERATION = 8; // Maters/second squared
+        public static final double MAX_TELEOP_ROTATIONAL_SPEED = Math.toRadians(700); // Radians/second
+    }
 }
