@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveSubsystem;
+import friarLib2.utility.DoubleSlewRateLimiter;
 import friarLib2.utility.Vector3309;
 
 /**
@@ -29,14 +30,14 @@ public class DriveTeleop extends CommandBase {
 
     protected DriveSubsystem drive;
 
-    private SlewRateLimiter xAccelLimiter;
-    private SlewRateLimiter yAccelLimiter;
+    private DoubleSlewRateLimiter xAccelLimiter;
+    private DoubleSlewRateLimiter yAccelLimiter;
 
     public DriveTeleop(DriveSubsystem drive) {
         this.drive = drive;
 
-        xAccelLimiter = new SlewRateLimiter(Constants.Drive.MAX_TELEOP_ACCELERATION);
-        yAccelLimiter = new SlewRateLimiter(Constants.Drive.MAX_TELEOP_ACCELERATION);
+        xAccelLimiter = new DoubleSlewRateLimiter(Constants.Drive.MAX_TELEOP_ACCELERATION, Constants.Drive.MAX_TELEOP_DECELERATION);
+        yAccelLimiter = new DoubleSlewRateLimiter(Constants.Drive.MAX_TELEOP_ACCELERATION, Constants.Drive.MAX_TELEOP_DECELERATION);
 
         addRequirements(drive);
     }
