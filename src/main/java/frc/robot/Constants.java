@@ -103,7 +103,7 @@ public final class Constants {
     public static class Drive {
         public static final double MAX_TELEOP_SPEED = 6; // Meters/second
         public static final double MAX_TELEOP_ACCELERATION = 5; // Maters/second squared
-        public static final double MAX_TELEOP_DECELERATION = 9;
-        public static final double MAX_TELEOP_ROTATIONAL_SPEED = Math.toRadians(700); // Radians/second
+        public static final double MAX_TELEOP_DECELERATION = 8.5;
+        public static final double MAX_TELEOP_ROTATIONAL_SPEED = Math.toRadians(800); // Radians/second
     }
 }

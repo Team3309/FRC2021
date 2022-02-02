@@ -150,4 +150,8 @@ public class Vector3309 {
     public double getMagnitude () {
         return magnitude;
     }
+
+    public void setMagnitude (double newMagnitude) {
+        setRadialCoords(direction, newMagnitude);
+    }
 }
