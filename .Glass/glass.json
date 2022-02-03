@@ -29,7 +29,9 @@
     }
   },
   "NetworkTables Settings": {
-    "mode": "Client"
+    "dsClient": false,
+    "mode": "Client",
+    "serverTeam": "10.33.9.2"
   },
   "Plots": {
     "Plot <0>": {
@@ -41,7 +43,7 @@
               "min": -1000.0
             }
           ],
-          "height": 352,
+          "height": -37,
           "series": [
             {
               "color": [
@@ -77,6 +79,12 @@
     "Plot <1>": {
       "plots": [
         {
+          "axis": [
+            {
+              "max": 6.5,
+              "min": -6.5
+            }
+          ],
           "height": 332,
           "series": [
             {

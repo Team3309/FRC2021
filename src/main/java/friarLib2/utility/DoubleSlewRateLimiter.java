@@ -18,16 +18,16 @@ public class DoubleSlewRateLimiter {
     }
 
     public double calculate (double speed) {
-        boolean isVelocityPositive = speed >= 0;
+        boolean isVelocityPositive = lastSpeed >= 0;
         boolean isAccelPositive = speed - lastSpeed >= 0;
 
         double out;
         if ((isAccelPositive && isVelocityPositive) || (!isAccelPositive && !isVelocityPositive)) {
             out = accelLimiter.calculate(speed);
-            decelLimiter.reset(speed);
+            decelLimiter.reset(lastSpeed);
         } else {
             out = decelLimiter.calculate(speed);
-            accelLimiter.reset(speed);
+            accelLimiter.reset(lastSpeed);
         }
         lastSpeed = out;
 
