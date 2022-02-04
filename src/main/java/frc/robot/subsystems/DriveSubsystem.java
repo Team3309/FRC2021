@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.SwerveModule;
+import frc.robot.SwerveModule2021;
+import friarLib2.hardware.SwerveModule;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -31,8 +32,8 @@ public class DriveSubsystem extends SubsystemBase {
         imu = new ADIS16470_IMU();
         imu.calibrate();
 
-        leftModule = new SwerveModule(Constants.leftModuleDriveMotorID, Constants.leftModulRotationMotorID, "Left module");
-        rightModule = new SwerveModule(Constants.rightModuleDriveMotorID, Constants.rightModuleRotationMotorID, "Right module");
+        leftModule = new SwerveModule2021(Constants.leftModuleDriveMotorID, Constants.leftModulRotationMotorID, "Left module");
+        rightModule = new SwerveModule2021(Constants.rightModuleDriveMotorID, Constants.rightModuleRotationMotorID, "Right module");
 
         swerveKinematics = new SwerveDriveKinematics(
             Constants.leftModuleTranslation,
@@ -110,10 +111,10 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Left Module speed", leftModule.getState().speedMetersPerSecond);
         SmartDashboard.putNumber("RIght Module speed", rightModule.getState().speedMetersPerSecond);
         SmartDashboard.putNumber("Robot heading", getRobotRotation().getDegrees());
-        SmartDashboard.putNumber("Left Module Drive error", leftModule.driveMotor.getClosedLoopError());
+        /*SmartDashboard.putNumber("Left Module Drive error", leftModule.driveMotor.getClosedLoopError());
         SmartDashboard.putNumber("Right Module Drive error", rightModule.driveMotor.getClosedLoopError());
         SmartDashboard.putNumber("Left Module Rotation error", leftModule.rotationMotor.getClosedLoopError());
-        SmartDashboard.putNumber("Right Module Rotation error", rightModule.rotationMotor.getClosedLoopError());
+        SmartDashboard.putNumber("Right Module Rotation error", rightModule.rotationMotor.getClosedLoopError());*/
         SmartDashboard.putString("Odometry", currentRobotPose.toString());
     }
 

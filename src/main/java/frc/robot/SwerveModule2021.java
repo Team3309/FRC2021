@@ -5,19 +5,20 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import friarLib2.hardware.SwerveModule;
 import friarLib2.math.CTREModuleState;
 
 /**
  * Class that represents a single swerve drive module
  */
-public class SwerveModule {
+public class SwerveModule2021 implements SwerveModule {
     public String name; // USed for diplaying values on SmartDashboard
     public WPI_TalonFX driveMotor;
     public WPI_TalonFX rotationMotor;
 
     private double lastAngle = 0.0;
 
-    public SwerveModule (int driveMotorID, int rotationMotorID, String name) {
+    public SwerveModule2021 (int driveMotorID, int rotationMotorID, String name) {
         this.name = name;
         driveMotor = new WPI_TalonFX(driveMotorID);
         rotationMotor = new WPI_TalonFX(rotationMotorID);
