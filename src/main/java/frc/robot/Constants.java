@@ -43,7 +43,7 @@ public final class Constants {
 
     /********** Physical Drive Constants **********/
     public static final int leftModuleDriveMotorID = 1;
-    public static final int leftModulRotationMotorID = 2;
+    public static final int leftModuleRotationMotorID = 2;
 
     public static final int rightModuleDriveMotorID = 5;
     public static final int rightModuleRotationMotorID = 6;

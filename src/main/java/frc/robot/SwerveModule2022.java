@@ -5,6 +5,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import friarLib2.hardware.SwerveModule;
 import friarLib2.math.CTREModuleState;
@@ -81,6 +82,10 @@ public class SwerveModule2022 implements SwerveModule {
         double angle = (Math.abs(state.speedMetersPerSecond) <= (ABSOLUTE_MAX_DRIVE_SPEED * 0.01)) ? lastAngle : state.angle.getDegrees(); // Prevent rotating module if speed is less than 1%. Prevents Jittering.
         steeringMotor.set(ControlMode.Position, Conversions.degreesToEncoderTicksFalcon(angle)); 
         lastAngle = angle;
+
+        SmartDashboard.putNumber(name + " CANCoder raw value", steeringEncoder.getPosition());
+        SmartDashboard.putNumber(name + " CANCoder degrees", getSteeringDegreesFromEncoder());
+        SmartDashboard.putNumber(name + " Falcon degrees", getSteeringDegreesFromFalcon());
     }
 
     /**
@@ -91,7 +96,7 @@ public class SwerveModule2022 implements SwerveModule {
     public SwerveModuleState getState () {
         return new SwerveModuleState(
             Conversions.encoderTicksPer100msToMps(driveMotor.getSelectedSensorVelocity()), 
-            Rotation2d.fromDegrees(Conversions.encoderTicksToDegreesFalcon(steeringMotor.getSelectedSensorPosition()))
+            Rotation2d.fromDegrees(getSteeringDegreesFromFalcon())
         );
     }
 
@@ -100,9 +105,23 @@ public class SwerveModule2022 implements SwerveModule {
      */
     public boolean steeringHasSlipped () {
         return Math.abs(
-            Conversions.encoderTicksToDegreesFalcon(steeringMotor.getSelectedSensorPosition()) -
-            Conversions.encoderTicksToDegreesCANCoder(steeringEncoder.getPosition())
+            getSteeringDegreesFromFalcon() -
+            getSteeringDegreesFromEncoder()
             ) >= SLIP_THRESHOLD;
+    }
+
+    /**
+     * @return The position of the steering axis according to the Falcon's encoder
+     */
+    private double getSteeringDegreesFromFalcon () {
+        return Conversions.encoderTicksToDegreesFalcon(steeringMotor.getSelectedSensorPosition());
+    }
+
+    /**
+     * @return THe position of the steering axis according to the CANCoder
+     */
+    private double getSteeringDegreesFromEncoder () {
+        return Conversions.encoderTicksToDegreesCANCoder(steeringEncoder.getPosition());
     }
 
     /**
