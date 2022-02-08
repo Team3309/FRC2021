@@ -146,7 +146,7 @@ public class SwerveModule2022 implements SwerveModule {
         }
 
         public static double degreesToEncoderTicksCANCoder (double degrees) {
-            return degrees * (4096.0 / 360.0) * STEERING_GEAR_RATIO_ENCODER;
+            return degrees * STEERING_GEAR_RATIO_ENCODER;
         }
 
         public static double encoderTicksToDegreesCANCoder (double encoderTicks) {
