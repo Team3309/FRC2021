@@ -1,6 +1,7 @@
 package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -50,8 +51,16 @@ public class SwerveModule2022 implements SwerveModule {
         this.name = name;
         driveMotor = new WPI_TalonFX(driveMotorID);
         steeringMotor = new WPI_TalonFX(steeringMotorID);
-        steeringEncoder = new CANCoder(encoderID);
         configMotors();
+
+        steeringEncoder = new CANCoder(encoderID);
+        steeringEncoder.configFactoryDefault();
+        steeringEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        steeringEncoder.configMagnetOffset(227);
+
+        /*steeringMotor.setSelectedSensorPosition(
+            Conversions.degreesToEncoderTicksFalcon(
+                Conversions.encoderTicksToDegreesCANCoder(steeringEncoder.getAbsolutePosition())));*/
     }
 
     /**
@@ -83,6 +92,7 @@ public class SwerveModule2022 implements SwerveModule {
         steeringMotor.set(ControlMode.Position, Conversions.degreesToEncoderTicksFalcon(angle)); 
         lastAngle = angle;
 
+        SmartDashboard.putNumber(name + " CANCoder absolute value", steeringEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(name + " CANCoder raw value", steeringEncoder.getPosition());
         SmartDashboard.putNumber(name + " CANCoder degrees", getSteeringDegreesFromEncoder());
         SmartDashboard.putNumber(name + " Falcon degrees", getSteeringDegreesFromFalcon());
