@@ -117,6 +117,9 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Left Module Rotation error", leftModule.rotationMotor.getClosedLoopError());
         SmartDashboard.putNumber("Right Module Rotation error", rightModule.rotationMotor.getClosedLoopError());*/
         SmartDashboard.putString("Odometry", currentRobotPose.toString());
+
+        leftModule.outputToDashboard();
+        rightModule.outputToDashboard();
     }
 
 }

@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 public interface SwerveModule {
     public void setState (SwerveModuleState state);
     public SwerveModuleState getState ();
+    
+    default public void outputToDashboard () {}
 
-    default public boolean steeringHasSlipped () {
-        return false;
-    }
+    default public boolean steeringHasSlipped () { return false; }
+    default public void zeroSteering () {}
 }
