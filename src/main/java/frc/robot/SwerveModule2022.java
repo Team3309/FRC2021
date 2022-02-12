@@ -54,13 +54,22 @@ public class SwerveModule2022 implements SwerveModule {
     private WPI_TalonFX steeringMotor;
     private CANCoder steeringEncoder;
 
+    /** 
+     * How many degrees the steering axis must be at (relative to its zeroed
+     * position) to be facing forward on the robot. Modules on different
+     * corners of a drivetrain will have different offsets
+     */
+    private final double steeringOffset;
+
     private double lastAngle = 0.0;
 
-    public SwerveModule2022 (int driveMotorID, int steeringMotorID, int encoderID, String name) {
+    public SwerveModule2022 (double steeringOffset, int driveMotorID, int steeringMotorID, int encoderID, String name) {
         this.name = name;
         driveMotor = new WPI_TalonFX(driveMotorID);
         steeringMotor = new WPI_TalonFX(steeringMotorID);
         configMotors();
+
+        this.steeringOffset = steeringOffset;
 
         // Initialize the encoder
         // DO NOT configure the factory defaults. Doing so will reset the manually tuned
@@ -69,13 +78,6 @@ public class SwerveModule2022 implements SwerveModule {
         steeringEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
         steeringEncoder.configMagnetOffset(0);
 
-        /*double encoderOffset = steeringEncoder.configGetCustomParam(0) / 100.0;
-
-        double absolutePosition = steeringEncoder.getAbsolutePosition() - encoderOffset;
-        double absolutePositionFalcon = Conversions.degreesToEncoderTicksFalcon(absolutePosition);
-        double absolutePositionEncoder = Conversions.degreesToEncoderTicksCANCoder(absolutePosition);
-        steeringMotor.setSelectedSensorPosition(absolutePositionFalcon);
-        steeringEncoder.setPosition(absolutePositionEncoder);*/
         zeroSteering();
     }
 
@@ -138,7 +140,7 @@ public class SwerveModule2022 implements SwerveModule {
      */
     @Override
     public void zeroSteering () {
-        double encoderOffset = getMagnetOffsetFromCANCoderSlot();
+        double encoderOffset = getMagnetOffsetFromCANCoderSlot() + steeringOffset;
 
         double absolutePosition = steeringEncoder.getAbsolutePosition() - encoderOffset;
         double absolutePositionFalcon = Conversions.degreesToEncoderTicksFalcon(absolutePosition);
